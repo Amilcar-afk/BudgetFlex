@@ -19,7 +19,7 @@ services:
       - symfony_net
 
   db:
-    image: postgres:13
+    image: postgres:latest
     container_name: database
     environment:
       POSTGRES_DB: symfony
