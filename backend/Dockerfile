@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y \
     git \
     zip \
     unzip \
-    && docker-php-ext-install pdo pdo_mysql
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql
 
 # Copiez et configurez Apache
 COPY ./apacheConf.txt /etc/apache2/sites-available/000-default.conf
