@@ -1,0 +1,35 @@
+# Active le moteur de réécriture
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Règle pour Apache sans répertoire de base prédéfini
+    # Redirige toutes les requêtes non vers des fichiers directement vers index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ %{ENV:BASE}/index.php [L]
+</IfModule>
+
+# Si mod_rewrite n'est pas disponible, redirige toutes les requêtes vers index.php
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        RedirectMatch 307 ^/$ /index.php/
+    </IfModule>
+</IfModule>
+
+# Interdit l'accès direct aux fichiers .htaccess et .htpasswd
+<FilesMatch "^\.ht">
+    Require all denied
+</FilesMatch>
+
+# Spécifie le fichier par défaut à servir
+DirectoryIndex index.php
+
+# Option pour suivre les liens symboliques, si nécessaire
+# Options +FollowSymLinks
+
+# Désactive la négociation de contenu MultiViews, qui peut causer des problèmes
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
