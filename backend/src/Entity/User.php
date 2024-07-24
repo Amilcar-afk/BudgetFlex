@@ -6,6 +6,8 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -14,24 +16,27 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user_detail', 'budget_overview'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Groups(['user_detail'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 60)]
+    #[Groups(['user_detail'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 60)]
+    #[Groups(['user_detail'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    /**
-     * @var Collection<int, BudgetMonth>
-     */
-    #[ORM\OneToMany(targetEntity: BudgetMonth::class, mappedBy: 'userId')]
+    #[ORM\OneToMany(targetEntity: BudgetMonth::class, mappedBy: 'user')]
+    #[Groups(['user_detail'])]
+    #[MaxDepth(1)]
     private Collection $budgetMonths;
 
     public function __construct()
