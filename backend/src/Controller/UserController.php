@@ -118,7 +118,6 @@ class UserController extends AbstractController
     #[Route('/{id}/csrf-token', name: 'user_csrf_token', methods: ['GET'])]
     public function getCsrfTokenForUser(int $id): JsonResponse
     {
-        // Générer un token CSRF pour l'action de suppression d'un utilisateur
         $token = $this->csrfTokenManager->getToken('delete_user' . $id)->getValue();
 
         return new JsonResponse(['csrfToken' => $token]);
