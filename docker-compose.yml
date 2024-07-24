@@ -1,16 +1,13 @@
 services:
   web:
-    image: php:8.2-apache
-    container_name: server
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: server-symfony
     ports:
       - "8000:80"
     volumes:
       - ./backend:/var/www/html
-      - ./backend/apacheConf.txt:/etc/apache2/sites-available/000-default.conf
-    command: >
-      bash -c "a2enmod rewrite &&
-               ln -sf /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf &&
-               apache2ctl -D FOREGROUND"
     environment:
       APP_ENV: dev
     depends_on:
