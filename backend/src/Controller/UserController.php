@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
@@ -29,7 +30,7 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository, SerializerInterface $serializer): Response
     {
         $users = $userRepository->findAll();
-        $json = $serializer->serialize($users, 'json');
+        $json = $serializer->serialize($users, 'json', [AbstractNormalizer::GROUPS => ['user_detail']]);
 
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }
@@ -68,7 +69,7 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'user_show', methods: ['GET'])]
     public function show(User $user, SerializerInterface $serializer): Response
     {
-        $json = $serializer->serialize($user, 'json');
+        $json = $serializer->serialize($user, 'json', [AbstractNormalizer::GROUPS => ['user_detail']]);
 
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }

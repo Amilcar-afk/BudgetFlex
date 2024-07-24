@@ -18,7 +18,7 @@ class BudgetMonthType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('initialBudget')
-            ->add('userId', EntityType::class, [
+            ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'id',
             ])
