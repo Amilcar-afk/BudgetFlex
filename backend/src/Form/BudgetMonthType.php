@@ -16,6 +16,8 @@ class BudgetMonthType extends AbstractType
         $builder
             ->add('date', null, [
                 'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'html5' => true,
             ])
             ->add('initialBudget')
             ->add('user', EntityType::class, [
