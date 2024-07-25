@@ -6,8 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Attribute\MaxDepth;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -16,27 +15,29 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user_detail', 'budget_overview'])]
+    #[Groups(["user_basic", "budget_basic"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
-    #[Groups(['user_detail'])]
+    #[Groups(["user_basic"])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 60)]
-    #[Groups(['user_detail'])]
+    #[Groups(["user_basic"])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 60)]
-    #[Groups(['user_detail'])]
+    #[Groups(["user_basic"])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    /**
+     * @var Collection<int, BudgetMonth>
+     */
     #[ORM\OneToMany(targetEntity: BudgetMonth::class, mappedBy: 'user')]
-    #[Groups(['user_detail'])]
-    #[MaxDepth(1)]
+    #[Groups(["user_basic"])]
     private Collection $budgetMonths;
 
     public function __construct()
@@ -109,7 +110,7 @@ class User
     {
         if (!$this->budgetMonths->contains($budgetMonth)) {
             $this->budgetMonths->add($budgetMonth);
-            $budgetMonth->setUserId($this);
+            $budgetMonth->setUser($this);
         }
 
         return $this;
@@ -119,8 +120,8 @@ class User
     {
         if ($this->budgetMonths->removeElement($budgetMonth)) {
             // set the owning side to null (unless already changed)
-            if ($budgetMonth->getUserId() === $this) {
-                $budgetMonth->setUserId(null);
+            if ($budgetMonth->getUser() === $this) {
+                $budgetMonth->setUser(null);
             }
         }
 

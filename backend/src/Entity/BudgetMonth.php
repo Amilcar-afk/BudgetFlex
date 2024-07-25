@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\BudgetMonthRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: BudgetMonthRepository::class)]
 class BudgetMonth
@@ -13,21 +13,21 @@ class BudgetMonth
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['budget_detail', 'user_overview'])]
+    #[Groups(["budget_basic", "user_basic"])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Groups(['budget_detail', 'user_overview'])]
+    #[Groups(["budget_basic"])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column]
-    #[Groups(['budget_detail'])]
+    #[Groups(["budget_basic"])]
     private ?float $initialBudget = null;
 
     #[ORM\ManyToOne(inversedBy: 'budgetMonths')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['budget_detail'])]
-    private ?User $user;
+    #[Groups(["budget_basic"])]
+    private ?User $user = null;
 
     public function getId(): ?int
     {

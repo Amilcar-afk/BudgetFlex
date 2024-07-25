@@ -30,7 +30,7 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository, SerializerInterface $serializer): Response
     {
         $users = $userRepository->findAll();
-        $json = $serializer->serialize($users, 'json', [AbstractNormalizer::GROUPS => ['user_detail']]);
+        $json = $serializer->serialize($users, 'json', ['groups' => 'user_basic']);
 
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }
@@ -58,7 +58,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $json = $serializer->serialize($user, 'json');
+            $json = $serializer->serialize($user, 'json', ['groups' => 'user_basic']);
 
             return new Response($json, 201, ['Content-Type' => 'application/json']);
         }
@@ -69,7 +69,7 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'user_show', methods: ['GET'])]
     public function show(User $user, SerializerInterface $serializer): Response
     {
-        $json = $serializer->serialize($user, 'json', [AbstractNormalizer::GROUPS => ['user_detail']]);
+        $json = $serializer->serialize($user, 'json', ['groups' => 'user_basic']);
 
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }
@@ -84,7 +84,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $json = $serializer->serialize($user, 'json');
+            $json = $serializer->serialize($user, 'json', ['groups' => 'user_basic']);
 
             return new Response($json, 200, ['Content-Type' => 'application/json']);
         }
