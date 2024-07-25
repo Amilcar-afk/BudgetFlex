@@ -24,12 +24,12 @@ export default function BarChartDetails() {
                         barGapRatio: 0.1
                     }]}
 
-                    barLabel={(item, context) => {
+                    /*barLabel={(item, context) => {
                         if ((item.value ?? 0) > 10) {
                             return item.value;
                         }
-                        return context.bar.height < 60 ? null : item.value?.toString();
-                    }}
+                        return context.bar.height < 60 ? "null" : item.value?.toString();
+                    }}*/
         
                     sx={{
                         '& .MuiChartsAxis-tickLabel': {
@@ -40,8 +40,6 @@ export default function BarChartDetails() {
                         '& .MuiChartsAxis-line': {
                             stroke: "white !important",
                         },
-        
-        
         
                     }}
                 />
