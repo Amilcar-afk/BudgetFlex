@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PieChartForSubCategory from "./charts/PieChartForSubCategory";
 import BarChartBankBalance from "./charts/BarChartBankBalance";
 import ExpensesTable from "./table/ExpensesTable";
@@ -7,12 +7,32 @@ import WantsIcon from "./category/WantsIcon";
 import NeedsIcon from "./category/NeedsIcon";
 import CategoryDetails from "./charts/CategoryDetails";
 import { Button } from "flowbite-react";
+import { UserContext } from '../../../contexts/userContext';
 
 const Widgets = () => {
 
+    const { fetchUser } = useContext(UserContext);
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            try {
+                const userData = await fetchUser(4);
+                setUser(userData);
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+        fetchUserDetails();
+    }, [fetchUser]);
+
+
     return (
         <>
-            <Button size="lg" className='grid-margin appButton'>Terminer ce suivi</Button>
+            <div className="d-flex align-items-center mb-4">
+                <Button size="lg" className='appButton'>Terminer ce suivi</Button>
+                <span className="ml-4">{user.firstname} {user.lastname}</span>
+            </div>
             <div className="row">
                 <div className="col-sm-6 grid-margin">
                     <div className="card">
@@ -280,7 +300,7 @@ const Widgets = () => {
                                     <li className="completed">
                                         <div className="form-check form-check-primary">
                                             <label className="form-check-label">
-                                                <input className="checkbox" type="checkbox" checked /> Prepare for presentation
+                                                <input className="checkbox" type="checkbox" /> Prepare for presentation
                                             </label>
                                         </div>
                                         <i className="remove mdi mdi-close-box"></i>
