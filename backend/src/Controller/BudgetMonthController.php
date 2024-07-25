@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\BudgetMonth;
-use App\Entity\User;
 use App\Form\BudgetMonthType;
 use App\Repository\BudgetMonthRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,9 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/budget/month')]
 class BudgetMonthController extends AbstractController
@@ -30,7 +29,7 @@ class BudgetMonthController extends AbstractController
     public function index(BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): Response
     {
         $budgetMonths = $budgetMonthRepository->findAll();
-        $json = $serializer->serialize($budgetMonths, 'json');
+        $json = $serializer->serialize($budgetMonths, 'json', ['groups' => 'budget_basic']);
 
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }
@@ -49,34 +48,12 @@ class BudgetMonthController extends AbstractController
         }
 
         $data = json_decode($request->getContent(), true);
-        if (!$data) {
+
+        if ($data === null) {
             return new JsonResponse(['error' => 'Invalid JSON data'], 400);
         }
 
         $budgetMonth = new BudgetMonth();
-
-        // Vérification et assignation de l'utilisateur
-        $user = $entityManager->getRepository(User::class)->find($data['user']);
-        if (!$user) {
-            return new JsonResponse(['error' => 'User not found'], 404);
-        }
-        $budgetMonth->setUser($user);
-
-        // Vérification et assignation de la date
-        if (isset($data['date'])) {
-            $date = \DateTime::createFromFormat('Y-m-d', $data['date']);
-            if (!$date) {
-                return new JsonResponse(['error' => 'Invalid date format, expected Y-m-d'], 400);
-            }
-            $budgetMonth->setDate($date);
-        }
-
-        // Assignation du budget initial
-        if (isset($data['initialBudget'])) {
-            $budgetMonth->setInitialBudget((float)$data['initialBudget']);
-        }
-
-        // Soumission du formulaire
         $form = $this->createForm(BudgetMonthType::class, $budgetMonth);
         $form->submit($data);
 
@@ -84,30 +61,21 @@ class BudgetMonthController extends AbstractController
             $entityManager->persist($budgetMonth);
             $entityManager->flush();
 
-            // Utilisation des groupes de sérialisation pour éviter les références circulaires
-            $json = $serializer->serialize($budgetMonth, 'json', [
-                AbstractNormalizer::GROUPS => ['budget_detail']
-            ]);
+            $json = $serializer->serialize($budgetMonth, 'json', ['groups' => 'budget_basic']);
+
             return new Response($json, 201, ['Content-Type' => 'application/json']);
         }
 
-        // Collecte des erreurs de formulaire
-        $errors = [];
-        foreach ($form->getErrors(true) as $error) {
-            $errors[] = $error->getMessage();
-        }
-
-        return new JsonResponse(['error' => 'Invalid data', 'messages' => $errors], 400);
+        return new JsonResponse(['error' => 'Invalid form data'], 400);
     }
 
     #[Route('/{id}', name: 'app_budget_month_show', methods: ['GET'])]
     public function show(BudgetMonth $budgetMonth, SerializerInterface $serializer): Response
     {
-        $json = $serializer->serialize($budgetMonth, 'json', [AbstractNormalizer::GROUPS => ['budget_detail']]);
+        $json = $serializer->serialize($budgetMonth, 'json', ['groups' => 'budget_basic']);
 
         return new Response($json, 200, ['Content-Type' => 'application/json']);
     }
-
 
     #[Route('/{id}/edit', name: 'app_budget_month_edit', methods: ['PUT'])]
     public function edit(Request $request, BudgetMonth $budgetMonth, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
@@ -119,7 +87,7 @@ class BudgetMonthController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $json = $serializer->serialize($budgetMonth, 'json');
+            $json = $serializer->serialize($budgetMonth, 'json', ['groups' => 'budget_basic']);
 
             return new Response($json, 200, ['Content-Type' => 'application/json']);
         }
