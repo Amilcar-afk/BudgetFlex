@@ -3,80 +3,61 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["user_basic", "budget_basic"])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 60)]
-    #[Groups(["user_basic"])]
-    private ?string $mail = null;
+    #[ORM\Column(length: 180)]
+    private ?string $email = null;
 
-    #[ORM\Column(length: 60)]
-    #[Groups(["user_basic"])]
-    private ?string $lastname = null;
-
-    #[ORM\Column(length: 60)]
-    #[Groups(["user_basic"])]
+    #[ORM\Column(length: 80)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    #[ORM\Column(length: 80)]
+    private ?string $lastname = null;
 
     /**
-     * @var Collection<int, BudgetMonth>
+     * @var list<string> The user roles
      */
-    #[ORM\OneToMany(targetEntity: BudgetMonth::class, mappedBy: 'user')]
-    #[Groups(["user_basic"])]
-    private Collection $budgetMonths;
+    #[ORM\Column]
+    private array $roles = [];
 
-    public function __construct()
-    {
-        $this->budgetMonths = new ArrayCollection();
-    }
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column]
+    private bool $isVerified = false;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getMail(): ?string
+    public function getEmail(): ?string
     {
-        return $this->mail;
+        return $this->email;
     }
 
-    public function setMail(string $mail): static
+    public function setEmail(string $email): static
     {
-        $this->mail = $mail;
+        $this->email = $email;
 
         return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): static
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
     }
 
     public function setFirstname(string $firstname): static
@@ -86,7 +67,61 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setLastname(string $lastname): static
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     *
+     * @return list<string>
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -99,31 +134,22 @@ class User
     }
 
     /**
-     * @return Collection<int, BudgetMonth>
+     * @see UserInterface
      */
-    public function getBudgetMonths(): Collection
+    public function eraseCredentials(): void
     {
-        return $this->budgetMonths;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
-    public function addBudgetMonth(BudgetMonth $budgetMonth): static
+    public function isVerified(): bool
     {
-        if (!$this->budgetMonths->contains($budgetMonth)) {
-            $this->budgetMonths->add($budgetMonth);
-            $budgetMonth->setUser($this);
-        }
-
-        return $this;
+        return $this->isVerified;
     }
 
-    public function removeBudgetMonth(BudgetMonth $budgetMonth): static
+    public function setVerified(bool $isVerified): static
     {
-        if ($this->budgetMonths->removeElement($budgetMonth)) {
-            // set the owning side to null (unless already changed)
-            if ($budgetMonth->getUser() === $this) {
-                $budgetMonth->setUser(null);
-            }
-        }
+        $this->isVerified = $isVerified;
 
         return $this;
     }
