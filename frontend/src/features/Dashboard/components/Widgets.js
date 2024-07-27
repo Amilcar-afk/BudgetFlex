@@ -7,31 +7,38 @@ import WantsIcon from "./category/WantsIcon";
 import NeedsIcon from "./category/NeedsIcon";
 import CategoryDetails from "./charts/CategoryDetails";
 import { Button } from "flowbite-react";
-import { UserContext } from '../../../contexts/userContext';
-
+import { AuthContext } from '../../../contexts/authContext';
 const Widgets = () => {
 
-    const { fetchUser } = useContext(UserContext);
-    const [user, setUser] = useState({});
+    const { register, fetchCsrfToken, csrfToken } = useContext(AuthContext);
+    const [userData, setUserData] = useState({
+        firstname: 'test',
+        lastname: 'test',
+        email: 'blackoscapos@gmail.com',
+        plainPassword: 'Zecazumickduca94',
+        agreeTerms: true,
+    });
 
-    useEffect(() => {
-        const fetchUserDetails = async () => {
-            try {
-                const userData = await fetchUser(4);
-                setUser(userData);
-            } catch (error) {
-                console.error('Error fetching user:', error);
-            }
-        };
-        fetchUserDetails();
-    }, [fetchUser]);
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setUserData({
+            ...userData,
+            [name]: type === 'checkbox' ? checked : value,
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await fetchCsrfToken(); // Fetch the CSRF token before submitting the form
+        register({ ...userData, _csrf_token: csrfToken }); // Include CSRF token in the payload
+    };
 
 
     return (
         <>
             <div className="d-flex align-items-center mb-4">
                 <Button size="lg" className='appButton'>Terminer ce suivi</Button>
-                <span className="ml-4">{user.firstname} {user.lastname}</span>
+                <span className="ml-4"></span>
             </div>
             <div className="row">
                 <div className="col-sm-6 grid-margin">

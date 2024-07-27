@@ -32,6 +32,7 @@
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "sass": "^1.77.5",
+    "tw-elements-react": "^1.0.0-alpha-end",
     "web-vitals": "^2.1.4",
     "zod": "^3.23.8"
   },

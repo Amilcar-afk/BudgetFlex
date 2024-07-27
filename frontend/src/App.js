@@ -5,14 +5,15 @@ import { Button } from 'flowbite-react';
 import 'flowbite/dist/flowbite.css';
 import './styles/style.css';
 import DashboardPage from "./features/Dashboard/DashboardPage";
-import UserProvider from "./contexts/userContext";
+import UserProvider from "./contexts/authContext";
+import RegisterPage from "./features/Auth/RegisterPage";
 
 
 function App() {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/hello')
+        fetch('http://localhost:8000/register')
             .then(response => response.text())
             .then(message => setMessage(message));
     }, []);
@@ -26,6 +27,7 @@ function App() {
             <UserProvider>
                 <Routes>
                     <Route path="/dashboard" element={<DashboardPage/>} />
+                    <Route path="/register" element={<RegisterPage/>} />
                 </Routes>
             </UserProvider>
         </BrowserRouter>

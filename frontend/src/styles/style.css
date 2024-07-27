@@ -25538,3 +25538,11 @@ div.tagsinput span.tag a {
       flex: 1 1 100%;
   }
 }
+
+#root{
+  background-color: #191c24;
+}
+
+.form-auth{
+
+}
