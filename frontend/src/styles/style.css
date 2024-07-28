@@ -18946,7 +18946,7 @@ code {
 
 /* Footer */
 .footer {
-  background: #000000;
+  background: #0F0F0F;
   padding: 20px 1rem;
   transition: all 0.25s ease;
   -moz-transition: all 0.25s ease;
@@ -25504,7 +25504,7 @@ div.tagsinput span.tag a {
 }
 
 .content-wrapper {
-  background: #000000;
+  /*background: #111111;*/
   padding: 1.875rem 1.75rem;
   width: 100%;
   -webkit-flex-grow: 1;
@@ -25541,8 +25541,5 @@ div.tagsinput span.tag a {
 
 #root{
   background-color: #191c24;
-}
-
-.form-auth{
-
+  height: 100vh !important;
 }

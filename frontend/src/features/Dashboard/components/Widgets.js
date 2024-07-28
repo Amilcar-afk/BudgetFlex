@@ -36,10 +36,10 @@ const Widgets = () => {
 
     return (
         <>
-            <div className="d-flex align-items-center mb-4">
+        {/*<div className="d-flex align-items-center mb-4">
                 <Button size="lg" className='appButton'>Terminer ce suivi</Button>
                 <span className="ml-4"></span>
-            </div>
+            </div>*/}
             <div className="row">
                 <div className="col-sm-6 grid-margin">
                     <div className="card">

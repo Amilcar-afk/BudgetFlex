@@ -1,4 +1,3 @@
-// authContext.js
 import React, { createContext, useEffect, useState } from 'react';
 import authApi from './api/authApi';
 
@@ -6,16 +5,12 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    const [csrfToken, setCsrfToken] = useState(null);
-
-    /*useEffect(() => {
-
-    }, []);*/
-
     const register = async (user) => {
         try {
-            const registeredUser = await authApi.register(user);
-            setCurrentUser(registeredUser);
+            const response = await authApi.register(user);
+            if (response && response.status === 201) {
+               return response.status;
+            }
         } catch (error) {
             console.error('Error registering user:', error);
         }
@@ -39,18 +34,8 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    const fetchCsrfToken = async () => {
-        try {
-            const tokenData = await authApi.getCsrfToken();
-            console.log(tokenData.csrfToken)
-            setCsrfToken(tokenData.csrfToken);
-        } catch (error) {
-            console.error('Error fetching CSRF token:', error);
-        }
-    };
-
     return (
-        <AuthContext.Provider value={{ currentUser, register, login, logout, fetchCsrfToken, csrfToken }}>
+        <AuthContext.Provider value={{ currentUser, register, login, logout}}>
             {children}
         </AuthContext.Provider>
     );
