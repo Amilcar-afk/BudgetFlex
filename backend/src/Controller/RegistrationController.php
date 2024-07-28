@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -22,8 +23,8 @@ class RegistrationController extends AbstractController
     {
     }
 
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
+    #[Route('/register', name: 'app_register', methods: ['POST'])]
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): JsonResponse
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -49,12 +50,9 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            return $security->login($user, 'form_login', 'main');
+            return new JsonResponse(['message' => 'Utilisateur inscrit !',], Response::HTTP_CREATED);
         }
-
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
-        ]);
+        return new JsonResponse(['message' => 'request not valid!'], Response::HTTP_BAD_REQUEST);
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
