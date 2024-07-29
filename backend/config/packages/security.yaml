@@ -13,17 +13,27 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        # firewall pour les API avec JWT
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+            provider: app_user_provider
+
         main:
             lazy: true
             provider: app_user_provider
             form_login:
                 login_path: app_login
-                check_path: app_login
+                check_path: app_login_check
                 enable_csrf: false
                 username_parameter: email
                 password_parameter: password
+                default_target_path: /
             logout:
                 path: app_logout
+                invalidate_session: true
                 # where to redirect after logout
                 # target: app_any_route
                 # where to redirect after logout
@@ -40,6 +50,10 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        # accès anonyme pour la route de connexion API
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        # accès restreint pour les autres routes API
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

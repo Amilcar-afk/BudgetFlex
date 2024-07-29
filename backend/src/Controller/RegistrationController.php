@@ -50,10 +50,21 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            return new JsonResponse(['message' => 'Utilisateur inscrit !',], Response::HTTP_CREATED);
+            return new JsonResponse(['message' => 'User registered !',], Response::HTTP_CREATED);
         }
         return new JsonResponse(['message' => 'request not valid!'], Response::HTTP_BAD_REQUEST);
     }
+
+    #[Route('/info', name: 'app_info', methods: ['GET'])]
+    public function info() :Response
+    {
+        ob_start();
+        phpinfo();
+        $info = ob_get_clean();
+
+        return new Response($info);
+    }
+
 
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request): Response
