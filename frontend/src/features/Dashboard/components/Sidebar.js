@@ -4,7 +4,7 @@ const Sidebar = () => {
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
             <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a href="#" className="flex mb-6 text-2xl font-semibold text-white grid-margin-sm-0">
+                <a href="http://localhost:8000/" className="flex mb-6 text-2xl font-semibold text-white grid-margin-sm-0">
                     <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                          alt="logo"/>
                     BudgetFlex

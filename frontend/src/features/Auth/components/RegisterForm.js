@@ -30,7 +30,7 @@ const RegisterComponent = () => {
             'registration_form[plainPassword]': userData.plainPassword,
             'registration_form[agreeTerms]': userData.agreeTerms ? 1 : 0,
         };
-        const responseCode = register(formattedData);
+        const responseCode = await register(formattedData);
         if (responseCode === 201){
             navigate('/login');
         }
@@ -39,7 +39,7 @@ const RegisterComponent = () => {
     return (
         <section className="card-body">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-white">
+                <a href="http://localhost:8000/register" className="flex items-center mb-6 text-2xl font-semibold text-white">
                     <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                          alt="logo"/>
                     BudgetFlex
@@ -111,7 +111,7 @@ const RegisterComponent = () => {
                                 <div className="ml-3 text-sm">
                                     <label htmlFor="terms" className="font-light text-gray-300">
                                         I accept the <a className="font-medium  hover:underline text-primary-500"
-                                                        href="#">Terms and Conditions</a></label>
+                                                        href="http://localhost:8000/">Terms and Conditions</a></label>
                                 </div>
                             </div>
                             <button type="submit"
@@ -120,7 +120,7 @@ const RegisterComponent = () => {
                             </button>
                             <p className="text-sm font-light text-gray-500 text-gray-400">
                                 Déjà un compte ?
-                                <a href="#" className="font-medium hover:underline text-primary-500">
+                                <a href="http://localhost:8000/login" className="font-medium hover:underline text-primary-500">
                                     Connecter vous
                                 </a>
                             </p>

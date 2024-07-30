@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import authApi from './api/authApi';
 
 export const AuthContext = createContext(null);
@@ -18,16 +18,21 @@ const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const user = await authApi.login(credentials);
-            setCurrentUser(user);
+            const response = await authApi.login(credentials);
+            if (response && response.data.token) {
+                localStorage.setItem('jwtToken', response.data.token);
+                setCurrentUser(response.data.user);
+                return response.status;
+            }
         } catch (error) {
             console.error('Error logging in:', error);
         }
+        return false;
     };
 
     const logout = async () => {
         try {
-            await authApi.logout();
+            localStorage.removeItem('jwtToken');
             setCurrentUser(null);
         } catch (error) {
             console.error('Error logging out:', error);

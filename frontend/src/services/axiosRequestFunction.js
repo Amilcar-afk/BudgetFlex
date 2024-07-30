@@ -1,4 +1,3 @@
-// src/services/axiosRequestFunction.js
 import axios from 'axios';
 
 const API_BASE_URL = process.env.SYMFONY_APP_SERVER;
@@ -8,7 +7,8 @@ const axiosInstance = axios.create({
 });
 
 const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = true, params = {}, userId = null) => {
-
+    console.log(data);
+    console.log(endpoint)
     try {
         return await axiosInstance({
             url: endpoint,
@@ -17,6 +17,7 @@ const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = tr
             params,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': '*/*'
             },
         })
     } catch (error) {
@@ -27,6 +28,10 @@ const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = tr
 
 axiosInstance.interceptors.request.use(
     (config) => {
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
         return config;
     },
     (error) => {

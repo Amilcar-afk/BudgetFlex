@@ -111,6 +111,9 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nelmio/cors-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/apache-pack" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lexik/jwt-authentication-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/psr/clock" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/clock" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/google-mailer" />

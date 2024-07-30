@@ -123,6 +123,9 @@
       <path value="$PROJECT_DIR$/backend/vendor/symfony/mailer" />
       <path value="$PROJECT_DIR$/backend/vendor/symfonycasts/verify-email-bundle" />
       <path value="$PROJECT_DIR$/backend/vendor/symfony/google-mailer" />
+      <path value="$PROJECT_DIR$/backend/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/backend/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/backend/vendor/lexik/jwt-authentication-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

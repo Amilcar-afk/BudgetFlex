@@ -6,15 +6,13 @@ const authApi = {
     },
 
     login: async function (credentials) {
-        return sendRequest('/login', 'POST', credentials, true);
+        console.log("login")
+        console.log(credentials)
+        return sendRequest('/login', 'POST', credentials, false);
     },
 
     logout: async function () {
         return sendRequest('/logout', 'POST', {}, true);
-    },
-
-    getCsrfToken: async function () {
-        return sendRequest('/api/csrf-token', 'GET', {}, true);
     },
 };
 

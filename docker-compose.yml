@@ -6,6 +6,7 @@ services:
     container_name: server-symfony
     ports:
       - "8000:80"
+      - "9002:9002"
     volumes:
       - ./backend:/var/www/html
     environment:
@@ -15,6 +16,8 @@ services:
       - mailer
     networks:
       - symfony_net
+    extra_hosts:
+      - "host.docker.internal:192.168.1.44"
 
   db:
     image: postgres:latest

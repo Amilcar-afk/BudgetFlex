@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import PieChartForSubCategory from "./charts/PieChartForSubCategory";
 import BarChartBankBalance from "./charts/BarChartBankBalance";
 import ExpensesTable from "./table/ExpensesTable";
@@ -6,34 +6,7 @@ import SavingIcon from "./category/SavingIcon";
 import WantsIcon from "./category/WantsIcon";
 import NeedsIcon from "./category/NeedsIcon";
 import CategoryDetails from "./charts/CategoryDetails";
-import { Button } from "flowbite-react";
-import { AuthContext } from '../../../contexts/authContext';
 const Widgets = () => {
-
-    const { register, fetchCsrfToken, csrfToken } = useContext(AuthContext);
-    const [userData, setUserData] = useState({
-        firstname: 'test',
-        lastname: 'test',
-        email: 'blackoscapos@gmail.com',
-        plainPassword: 'Zecazumickduca94',
-        agreeTerms: true,
-    });
-
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setUserData({
-            ...userData,
-            [name]: type === 'checkbox' ? checked : value,
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await fetchCsrfToken(); // Fetch the CSRF token before submitting the form
-        register({ ...userData, _csrf_token: csrfToken }); // Include CSRF token in the payload
-    };
-
-
     return (
         <>
         {/*<div className="d-flex align-items-center mb-4">
