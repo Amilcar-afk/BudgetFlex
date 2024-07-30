@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BudgetMonth{% endblock %}
+
+{% block body %}
+    <h1>BudgetMonth</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ budget_month.id }}</td>
+            </tr>
+            <tr>
+                <th>Year</th>
+                <td>{{ budget_month.year }}</td>
+            </tr>
+            <tr>
+                <th>Month</th>
+                <td>{{ budget_month.month }}</td>
+            </tr>
+            <tr>
+                <th>InitialBudget</th>
+                <td>{{ budget_month.initialBudget }}</td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td>{{ budget_month.state }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_budget_month_index') }}">back to list</a>
+
+    <a href="{{ path('app_budget_month_edit', {'id': budget_month.id}) }}">edit</a>
+
+    {{ include('budget_month/_delete_form.html.twig') }}
+{% endblock %}

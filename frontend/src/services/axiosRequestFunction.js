@@ -3,12 +3,10 @@ import axios from 'axios';
 const API_BASE_URL = process.env.SYMFONY_APP_SERVER;
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:8000",
+    baseURL: API_BASE_URL,
 });
 
 const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = true, params = {}, userId = null) => {
-    console.log(data);
-    console.log(endpoint)
     try {
         return await axiosInstance({
             url: endpoint,
@@ -21,7 +19,7 @@ const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = tr
             },
         })
     } catch (error) {
-        console.error('Error with the request:', error.response?.data || error.message);
+        //console.error('Error with the request:', error.response?.data || error.message);
         throw error;
     }
 };

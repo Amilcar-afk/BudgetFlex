@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BudgetMonth index{% endblock %}
+
+{% block body %}
+    <h1>BudgetMonth index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Year</th>
+                <th>Month</th>
+                <th>InitialBudget</th>
+                <th>State</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for budget_month in budget_months %}
+            <tr>
+                <td>{{ budget_month.id }}</td>
+                <td>{{ budget_month.year }}</td>
+                <td>{{ budget_month.month }}</td>
+                <td>{{ budget_month.initialBudget }}</td>
+                <td>{{ budget_month.state }}</td>
+                <td>
+                    <a href="{{ path('app_budget_month_show', {'id': budget_month.id}) }}">show</a>
+                    <a href="{{ path('app_budget_month_edit', {'id': budget_month.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_budget_month_new') }}">Create new</a>
+{% endblock %}
