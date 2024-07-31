@@ -59,7 +59,7 @@ class BudgetMonthController extends AbstractController
 
         $entityManager->persist($budgetMonth);
         $entityManager->flush();
-        $responseData = $serializer->serialize($budgetMonth, 'json', ['groups' => 'budget_details']);
+        $responseData = $serializer->serialize($budgetMonth, 'json', ['groups' => 'budget_list']);
 
         return new JsonResponse($responseData, Response::HTTP_CREATED, [], true);
     }
@@ -72,8 +72,6 @@ class BudgetMonthController extends AbstractController
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        var_dump($budgetMonth);
-
         $this->denyAccessUnlessGranted('view', $budgetMonth);
 
         $data = $serializer->serialize($budgetMonth, 'json', ['groups' => 'budget_details']);
@@ -84,17 +82,14 @@ class BudgetMonthController extends AbstractController
     #[Route('/{id}/edit', name: 'app_budget_month_edit', methods: ['PUT'])]
     public function edit(Request $request, BudgetMonth $budgetMonth, EntityManagerInterface $entityManager): JsonResponse
     {
-        // Vérifier que l'utilisateur est connecté
         if (!$this->getUser()) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        // Vérifier que l'utilisateur connecté est le créateur de BudgetMonth
         if ($budgetMonth->getUserId() !== $this->getUser()) {
             throw new AccessDeniedException('You do not have permission to edit this BudgetMonth.');
         }
 
-        // Récupération des données JSON de la requête
         $data = json_decode($request->getContent(), true);
 
         if (!$data) {
@@ -117,6 +112,18 @@ class BudgetMonthController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('/user/{userId}', name: 'app_budget_month_user', methods: ['GET'])]
+    public function getUserBudgetMonths(int $userId, BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): JsonResponse
+    {
+        if (!$this->getUser() || $this->getUser()->getId() !== $userId) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $budgetMonths = $budgetMonthRepository->findBy(['userId' => $userId]);
+        $data = $serializer->serialize($budgetMonths, 'json', ['groups' => 'budget_list']);
+        return new JsonResponse($data, Response::HTTP_OK, [], true);
     }
 
     /*#[Route('/{id}', name: 'app_budget_month_delete', methods: ['POST'])]
