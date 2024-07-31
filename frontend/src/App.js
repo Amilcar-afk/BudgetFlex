@@ -3,7 +3,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import 'flowbite/dist/flowbite.css';
 import './styles/style.css';
 import DashboardPage from "./features/Dashboard/DashboardPage";
-import UserProvider from "./contexts/authContext";
+import UserProvider from "./contexts/AuthContext";
 import RegisterPage from "./features/Auth/RegisterPage";
 import LoginPage from "./features/Auth/LoginPage";
 

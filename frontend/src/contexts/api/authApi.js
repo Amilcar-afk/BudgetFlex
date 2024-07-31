@@ -1,13 +1,11 @@
 import sendRequest from '../../services/axiosRequestFunction';
 
-const authApi = {
+const AuthApi = {
     register: async function (user) {
         return sendRequest('/register', 'POST', user, true);
     },
 
     login: async function (credentials) {
-        console.log("login")
-        console.log(credentials)
         return sendRequest('/login', 'POST', credentials, false);
     },
 
@@ -16,4 +14,4 @@ const authApi = {
     },
 };
 
-export default authApi;
+export default AuthApi;

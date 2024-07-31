@@ -122,6 +122,28 @@ class BudgetMonthController extends AbstractController
         }
 
         $budgetMonths = $budgetMonthRepository->findBy(['userId' => $userId]);
+
+        if (!$budgetMonths) {
+            return new JsonResponse(['message' => 'No budget month found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $data = $serializer->serialize($budgetMonths, 'json', ['groups' => 'budget_list']);
+        return new JsonResponse($data, Response::HTTP_OK, [], true);
+    }
+
+    #[Route('/active/{userId}', name: 'app_budget_month_active', methods: ['GET'])]
+    public function getUserActiveBudgetMonths(int $userId, BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): JsonResponse
+    {
+        if (!$this->getUser() || $this->getUser()->getId() !== $userId) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $budgetMonths = $budgetMonthRepository->findOneBy(['userId' => $userId, 'state' => 'active']);
+
+        if (!$budgetMonths) {
+            return new JsonResponse(['message' => 'No active budget month found'], Response::HTTP_NOT_FOUND);
+        }
+
         $data = $serializer->serialize($budgetMonths, 'json', ['groups' => 'budget_list']);
         return new JsonResponse($data, Response::HTTP_OK, [], true);
     }

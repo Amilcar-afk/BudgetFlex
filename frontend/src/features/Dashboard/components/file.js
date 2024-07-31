@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../../contexts/authContext';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 const RegisterComponent = () => {
     const { register, fetchCsrfToken, csrfToken } = useContext(AuthContext);

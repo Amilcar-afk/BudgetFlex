@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import authApi from './api/authApi';
+import AuthApi from './api/AuthApi';
 
 export const AuthContext = createContext(null);
 
@@ -7,7 +7,7 @@ const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const register = async (user) => {
         try {
-            const response = await authApi.register(user);
+            const response = await AuthApi.register(user);
             if (response && response.status === 201) {
                return response.status;
             }
@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const response = await authApi.login(credentials);
+            const response = await AuthApi.login(credentials);
             if (response && response.data.token) {
                 localStorage.setItem('jwtToken', response.data.token);
                 setCurrentUser(response.data.user);
