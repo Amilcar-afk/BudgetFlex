@@ -18,18 +18,27 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/budget/month')]
 class BudgetMonthController extends AbstractController
 {
-    #[Route('/', name: 'app_budget_month_index', methods: ['GET'])]
+    /*#[Route('/', name: 'app_budget_month_index', methods: ['GET'])]
     public function index(BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): JsonResponse
     {
+        if (!$this->getUser()) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
         $budgetMonths = $budgetMonthRepository->findAll();
         $data = $serializer->serialize($budgetMonths, 'json', ['groups' => 'budget_list']);
 
         return new JsonResponse($data, Response::HTTP_OK, [], true);
-    }
+    }*/
 
     #[Route('/new', name: 'app_budget_month_new', methods: ['POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer): JsonResponse
     {
+
+        if (!$this->getUser()) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
         $data = json_decode($request->getContent(), true);
 
         if (!$data) {
@@ -59,15 +68,11 @@ class BudgetMonthController extends AbstractController
     public function show(BudgetMonth $budgetMonth, SerializerInterface $serializer): JsonResponse
     {
 
-        $user = $this->getUser();
-
-        // Débogage : afficher les informations de l'utilisateur et de l'entité
-        dump($user);
-        dump($budgetMonth->getUserId());
-
         if (!$this->getUser()) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
+
+        var_dump($budgetMonth);
 
         $this->denyAccessUnlessGranted('view', $budgetMonth);
 
@@ -79,7 +84,17 @@ class BudgetMonthController extends AbstractController
     #[Route('/{id}/edit', name: 'app_budget_month_edit', methods: ['PUT'])]
     public function edit(Request $request, BudgetMonth $budgetMonth, EntityManagerInterface $entityManager): JsonResponse
     {
+        // Vérifier que l'utilisateur est connecté
+        if (!$this->getUser()) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
 
+        // Vérifier que l'utilisateur connecté est le créateur de BudgetMonth
+        if ($budgetMonth->getUserId() !== $this->getUser()) {
+            throw new AccessDeniedException('You do not have permission to edit this BudgetMonth.');
+        }
+
+        // Récupération des données JSON de la requête
         $data = json_decode($request->getContent(), true);
 
         if (!$data) {
@@ -97,14 +112,6 @@ class BudgetMonthController extends AbstractController
         }
         if (isset($data['state'])) {
             $budgetMonth->setState($data['state']);
-        }
-        if (isset($data['user'])) {
-            $user = $entityManager->getRepository(User::class)->find($data['user']);
-            if ($user) {
-                $budgetMonth->setUserId($user);
-            } else {
-                return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
-            }
         }
 
         $entityManager->flush();
