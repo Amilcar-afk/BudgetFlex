@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class SecurityController extends AbstractController
 {
@@ -18,6 +19,21 @@ class SecurityController extends AbstractController
     public function __construct(JWTTokenManagerInterface $jwtManager)
     {
         $this->jwtManager = $jwtManager;
+    }
+
+    #[Route(path: '/api/me', name: 'api_get_current_user', methods: ['GET'])]
+    public function getCurrentUser(Request $request): JsonResponse
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return new JsonResponse(['message' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return new JsonResponse([
+            'email' => $user->getEmail(),
+            'roles' => $user->getRoles(),
+        ]);
     }
 
     #[Route(path: '/login', name: 'app_login', methods: ['POST'])]
@@ -35,7 +51,15 @@ class SecurityController extends AbstractController
 
         $token = $this->jwtManager->create($user);
 
-        return new JsonResponse(['token' => $token], Response::HTTP_OK);
+        $userData = [
+            'email' => $user->getEmail(),
+            'roles' => $user->getRoles(),
+        ];
+
+        return new JsonResponse([
+            'token' => $token,
+            'user' => $userData,
+        ], Response::HTTP_OK);
     }
 
     #[Route('/login_check', name: 'app_login_check', methods: ['POST'])]

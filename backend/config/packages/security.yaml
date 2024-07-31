@@ -18,21 +18,25 @@ security:
         api:
             pattern: ^/api
             stateless: true
-            jwt: ~
             provider: app_user_provider
+            jwt: ~
+            entry_point: jwt
 
         main:
-            lazy: true
+            stateless: true
             provider: app_user_provider
+            jwt: ~
             form_login:
-                login_path: app_login
-                check_path: app_login_check
+                login_path: /login
+                check_path: /login_check
                 enable_csrf: false
                 username_parameter: email
                 password_parameter: password
                 default_target_path: /
+
+            entry_point: form_login
             logout:
-                path: app_logout
+                path: /logout
                 invalidate_session: true
                 # where to redirect after logout
                 # target: app_any_route
@@ -52,8 +56,10 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         # accès anonyme pour la route de connexion API
         - { path: ^/login, roles: PUBLIC_ACCESS }
-        # accès restreint pour les autres routes API
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/user, roles: PUBLIC_ACCESS }
+        # accès restreint pour les autres routes /budget/month
+        - { path: ^/budget/month, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/me, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

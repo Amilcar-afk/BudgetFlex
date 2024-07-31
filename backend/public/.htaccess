@@ -33,3 +33,6 @@ DirectoryIndex index.php
 <IfModule mod_negotiation.c>
     Options -MultiViews
 </IfModule>
+
+# Passer l'en-tête Authorization à PHP via Apache
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BudgetMonthRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: BudgetMonthRepository::class)]
 class BudgetMonth
@@ -11,22 +12,28 @@ class BudgetMonth
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['budget_details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 4)]
+    #[Groups(['budget_list', 'budget_details'])]
     private ?string $year = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['budget_list', 'budget_details'])]
     private ?string $month = null;
 
     #[ORM\Column]
+    #[Groups(['budget_list', 'budget_details'])]
     private ?float $initialBudget = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['budget_list', 'budget_details'])]
     private ?string $state = null;
 
     #[ORM\ManyToOne(inversedBy: 'budgetMonths')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['budget_details'])]
     private ?User $userId = null;
 
     public function getId(): ?int
