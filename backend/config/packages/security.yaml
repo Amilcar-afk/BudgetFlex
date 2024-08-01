@@ -59,6 +59,7 @@ security:
         # accès restreint pour les autres routes /budget/month
         - { path: ^/budget/month, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/me, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/expenses, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BudgetMonthRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -35,6 +37,17 @@ class BudgetMonth
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['budget_details'])]
     private ?User $userId = null;
+
+    /**
+     * @var Collection<int, Expenses>
+     */
+    #[ORM\OneToMany(targetEntity: Expenses::class, mappedBy: 'budgetMonth')]
+    private Collection $expenses;
+
+    public function __construct()
+    {
+        $this->expenses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -97,6 +110,36 @@ class BudgetMonth
     public function setUserId(?User $userId): static
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Expenses>
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expenses $expense): static
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses->add($expense);
+            $expense->setBudgetMonth($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expenses $expense): static
+    {
+        if ($this->expenses->removeElement($expense)) {
+            // set the owning side to null (unless already changed)
+            if ($expense->getBudgetMonth() === $this) {
+                $expense->setBudgetMonth(null);
+            }
+        }
 
         return $this;
     }
