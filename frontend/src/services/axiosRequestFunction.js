@@ -8,9 +8,6 @@ const axiosInstance = axios.create({
 
 const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = true, params = {}, userId = null) => {
     try {
-        console.log(endpoint);
-        console.log(data);
-        console.log(method)
         return await axiosInstance({
             url: endpoint,
             method,

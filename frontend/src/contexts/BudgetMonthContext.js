@@ -1,11 +1,12 @@
-import React, { createContext } from 'react';
+import React, {createContext, useState} from 'react';
 import BudgetMonthApi from './api/BudgetMonthApi';
-import { ToastContainer, toast } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const BudgetMonthContext = createContext(null);
 
 const BudgetMonthProvider = ({ children }) => {
+    const [activeBudgetMonth, setActiveBudgetMonth] = useState(null);
 
     const addBudgetMonth = async (data) => {
         try{
@@ -32,19 +33,20 @@ const BudgetMonthProvider = ({ children }) => {
     }
 
     const getActiveBudgetMonth = async (userId) => {
-        try{
-            const response =  await BudgetMonthApi.getLastActive(userId);
-            if(response && response.status === 200) {
-                return response;
+        try {
+            const response = await BudgetMonthApi.getLastActive(userId);
+            if (response.status === 200) {
+                setActiveBudgetMonth(response.data);
             } else {
-                console.error('No active budget month found or invalid response structure');
-                return null;
+                setActiveBudgetMonth('empty');
+                toast.error(`Aucun budgetMonth actif trouvé`);
             }
         } catch (error) {
             console.error('Error fetching active budget month:', error);
-            return null;
+            setActiveBudgetMonth(null);
         }
     }
+
 
     /*const getUserBudgetMonths = async (userId) => {
         return BudgetMonthApi.getUserList(userId).then(response => {
@@ -54,7 +56,7 @@ const BudgetMonthProvider = ({ children }) => {
     }*/
 
     return (
-        <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth }}>
+        <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth, activeBudgetMonth }}>
             <ToastContainer />
             {children}
         </BudgetMonthContext.Provider>

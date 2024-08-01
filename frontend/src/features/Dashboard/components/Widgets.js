@@ -6,7 +6,9 @@ import SavingIcon from "./category/SavingIcon";
 import WantsIcon from "./category/WantsIcon";
 import NeedsIcon from "./category/NeedsIcon";
 import CategoryDetails from "./charts/CategoryDetails";
-const Widgets = () => {
+const Widgets = ({ budgetData }) => {
+    console.log("widget")
+    console.log(budgetData)
     return (
         <>
         {/*<div className="d-flex align-items-center mb-4">
@@ -21,7 +23,7 @@ const Widgets = () => {
                             <div className="row">
                                 <div className="col-8 col-sm-12 col-xl-8 my-auto">
                                     <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                        <h2 className="mb-0">32 123 €</h2>
+                                        <h2 className="mb-0">{budgetData ? `${budgetData.initialBudget.toLocaleString()} €` : '0 €'}</h2>
                                         <p className="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
                                     </div>
                                     <h6 className="text-muted font-weight-normal">11.38% Since last month</h6>

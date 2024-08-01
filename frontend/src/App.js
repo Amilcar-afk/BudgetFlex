@@ -1,6 +1,7 @@
 import './App.css';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import 'flowbite/dist/flowbite.css';
+import 'tailwindcss/tailwind.css';
 import './styles/style.css';
 import DashboardPage from "./features/Dashboard/DashboardPage";
 import UserProvider from "./contexts/AuthContext";
