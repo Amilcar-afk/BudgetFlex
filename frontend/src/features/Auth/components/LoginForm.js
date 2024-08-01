@@ -16,10 +16,7 @@ const LoginComponent = () => {
         e.preventDefault();
         try {
             const responseCode = await login(credentials);
-            console.log("responseCode")
-            console.log(responseCode)
             if (responseCode === 200) {
-                console.log("before dashboard")
                 navigate('/dashboard');
             } else {
                 console.error('Login failed');

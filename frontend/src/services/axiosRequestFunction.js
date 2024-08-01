@@ -3,11 +3,14 @@ import axios from 'axios';
 const API_BASE_URL = process.env.SYMFONY_APP_SERVER;
 
 const axiosInstance = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: "http://localhost:8000",
 });
 
 const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = true, params = {}, userId = null) => {
     try {
+        console.log(endpoint);
+        console.log(data);
+        console.log(method)
         return await axiosInstance({
             url: endpoint,
             method,
