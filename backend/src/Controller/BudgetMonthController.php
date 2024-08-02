@@ -64,7 +64,7 @@ class BudgetMonthController extends AbstractController
         return new JsonResponse($responseData, Response::HTTP_CREATED, [], true);
     }
 
-    #[Route('/{id}', name: 'app_budget_month_show', methods: ['GET'])]
+    /*#[Route('/{id}', name: 'app_budget_month_show', methods: ['GET'])]
     public function show(BudgetMonth $budgetMonth, SerializerInterface $serializer): JsonResponse
     {
 
@@ -77,7 +77,7 @@ class BudgetMonthController extends AbstractController
         $data = $serializer->serialize($budgetMonth, 'json', ['groups' => 'budget_details']);
 
         return new JsonResponse($data, Response::HTTP_OK, [], true);
-    }
+    }*/
 
     #[Route('/{id}/edit', name: 'app_budget_month_edit', methods: ['PUT'])]
     public function edit(Request $request, BudgetMonth $budgetMonth, EntityManagerInterface $entityManager): JsonResponse
