@@ -6,6 +6,7 @@ use App\Entity\BudgetMonth;
 use App\Entity\Expenses;
 use App\Entity\User;
 use App\Form\ExpensesType;
+use App\Repository\BudgetMonthRepository;
 use App\Repository\ExpensesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -22,11 +23,16 @@ use DateTime;
 class ExpensesController extends AbstractController
 {
     #[Route('/', name: 'app_expenses_index', methods: ['GET'])]
-    public function index(ExpensesRepository $expensesRepository): Response
+    public function index(ExpensesRepository $expensesRepository, SerializerInterface $serializer): Response
     {
-        return $this->render('expenses/index.html.twig', [
-            'expenses' => $expensesRepository->findAll(),
-        ]);
+        if (!$this->getUser()) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $expenses = $expensesRepository->findAll();
+        $data = $serializer->serialize($expenses, 'json', ['groups' => 'expenses_list']);
+
+        return new JsonResponse($data, Response::HTTP_OK, [], true);
     }
 
     #[Route('/new', name: 'app_expenses_new', methods: ['GET', 'POST'])]
@@ -103,4 +109,25 @@ class ExpensesController extends AbstractController
 
         return $this->redirectToRoute('app_expenses_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/budget/{budgetMonthId}', name: 'app_expenses_by_budget', methods: ['GET'])]
+    public function getExpensesByBudgetMonth(int $budgetMonthId, BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $budgetMonth = $budgetMonthRepository->find($budgetMonthId);
+
+        if (!$budgetMonth || $budgetMonth->getUserId()->getId() !== $user->getId()) {
+            return new JsonResponse(['error' => 'BudgetMonth not found or access denied'], Response::HTTP_NOT_FOUND);
+        }
+
+        $expenses = $budgetMonth->getExpenses();
+        $data = $serializer->serialize($expenses, 'json', ['groups' => 'expenses_list']);
+
+        return new JsonResponse($data, Response::HTTP_OK, [], true);
+    }
+
 }

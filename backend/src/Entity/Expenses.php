@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ExpensesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ExpensesRepository::class)]
 class Expenses
@@ -12,22 +13,28 @@ class Expenses
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['expenses_details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
+    #[Groups(['expenses_list', 'expenses_details'])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups(['expenses_list', 'expenses_details'])]
     private ?float $price = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['expenses_list', 'expenses_details'])]
     private ?string $category = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['expenses_list', 'expenses_details'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'expenses')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['expenses_details'])]
     private ?BudgetMonth $budgetMonth = null;
 
     public function getId(): ?int
