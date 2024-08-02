@@ -13,7 +13,7 @@ class Expenses
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['expenses_details'])]
+    #[Groups(['expenses_list', 'expenses_details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]

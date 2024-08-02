@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import PieChartForSubCategory from "./charts/PieChartForSubCategory";
 import BarChartBankBalance from "./charts/BarChartBankBalance";
-import ExpensesTable from "./table/ExpensesTable";
+import ExpensesTable from "../components/table/ExpensesTable";
 import SavingIcon from "./category/SavingIcon";
 import WantsIcon from "./category/WantsIcon";
 import NeedsIcon from "./category/NeedsIcon";
 import CategoryDetails from "./charts/CategoryDetails";
+import { ExpensesContext } from "../../../contexts/ExpensesContext";
+
 const Widgets = ({ budgetData }) => {
-    console.log("widget")
-    console.log(budgetData)
+    const { getUserExpenses, userExpenses } = useContext(ExpensesContext);
+
+    useEffect(() => {
+        if (budgetData && budgetData.id) {
+            getUserExpenses(budgetData.id);
+        }
+    }, [budgetData, getUserExpenses]);
+
     return (
         <>
         {/*<div className="d-flex align-items-center mb-4">
@@ -81,7 +89,7 @@ const Widgets = ({ budgetData }) => {
                     </div>
                 </div>
                 <div className="col-md-9 grid-margin stretch-card">
-                    <ExpensesTable/>
+                    <ExpensesTable Expenses={userExpenses}/>
                 </div>
             </div>
 

@@ -9,6 +9,7 @@ import RegisterPage from "./features/Auth/RegisterPage";
 import LoginPage from "./features/Auth/LoginPage";
 import BudgetMonthProvider from "./contexts/BudgetMonthContext";
 import LogoutPage from "./features/Auth/LogoutPage";
+import ExpensesProvider from "./contexts/ExpensesContext";
 
 
 function App() {
@@ -16,12 +17,14 @@ function App() {
         <BrowserRouter>
             <UserProvider>
                 <BudgetMonthProvider>
-                    <Routes>
-                        <Route path="/dashboard" element={<DashboardPage/>} />
-                        <Route path="/register" element={<RegisterPage/>} />
-                        <Route path="/login" element={<LoginPage/>} />
-                        <Route path="/logout" element={<LogoutPage/>} />
-                    </Routes>
+                    <ExpensesProvider>
+                        <Routes>
+                            <Route path="/dashboard" element={<DashboardPage/>} />
+                            <Route path="/register" element={<RegisterPage/>} />
+                            <Route path="/login" element={<LoginPage/>} />
+                            <Route path="/logout" element={<LogoutPage/>} />
+                        </Routes>
+                    </ExpensesProvider>
                 </BudgetMonthProvider>
             </UserProvider>
         </BrowserRouter>

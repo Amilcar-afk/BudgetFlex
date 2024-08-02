@@ -14,7 +14,7 @@ class BudgetMonth
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['budget_details'])]
+    #[Groups(['budget_list','budget_details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 4)]
