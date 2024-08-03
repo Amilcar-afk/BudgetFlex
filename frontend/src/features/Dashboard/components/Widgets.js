@@ -15,7 +15,7 @@ const Widgets = ({ budgetData }) => {
         if (budgetData && budgetData.id) {
             getUserExpenses(budgetData.id);
         }
-    }, [budgetData, getUserExpenses]);
+    }, []);
 
     return (
         <>
