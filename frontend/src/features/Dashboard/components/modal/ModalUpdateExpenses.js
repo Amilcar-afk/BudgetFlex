@@ -1,62 +1,57 @@
-import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
-import { useState } from "react";
+import React from 'react';
+import {Datepicker} from "flowbite-react";
 
-export function Component() {
-    const [openModal, setOpenModal] = useState(true);
-    const [email, setEmail] = useState('');
-
-    function onCloseModal() {
-        setOpenModal(false);
-        setEmail('');
-    }
+export function ModalUpdateExpenses({ open, onClose, onUpdate, expense }) {
+    if (!open) return null;
 
     return (
-        <>
-            <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
-            <Modal show={openModal} size="md" onClose={onCloseModal} popup>
-                <Modal.Header />
-                <Modal.Body>
-                    <div className="space-y-6">
-                        <h3 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
-                        <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="email" value="Your email" />
-                            </div>
-                            <TextInput
-                                id="email"
-                                placeholder="name@company.com"
-                                value={email}
-                                onChange={(event) => setEmail(event.target.value)}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="password" value="Your password" />
-                            </div>
-                            <TextInput id="password" type="password" required />
-                        </div>
-                        <div className="flex justify-between">
-                            <div className="flex items-center gap-2">
-                                <Checkbox id="remember" />
-                                <Label htmlFor="remember">Remember me</Label>
-                            </div>
-                            <a href="#" className="text-sm text-cyan-700 hover:underline dark:text-cyan-500">
-                                Lost Password?
-                            </a>
-                        </div>
-                        <div className="w-full">
-                            <Button>Log in to your account</Button>
-                        </div>
-                        <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
-                            Not registered?&nbsp;
-                            <a href="#" className="text-cyan-700 hover:underline dark:text-cyan-500">
-                                Create account
-                            </a>
-                        </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden">
+            <div className="relative p-4 w-full max-w-md max-h-full">
+                <div className="relative rounded-lg shadow bg-gray-700">
+                    <div className="flex items-center justify-between p-4 md:p-5 rounded-t border-gray-600">
+                        <h3 className="text-lg font-semibold text-white">
+                            Modifier Dépense
+                        </h3>
+                        <button
+                            type="button"
+                            className="text-gray-400 bg-transparent hover:bg-gray-600 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                            onClick={onClose}
+                        >
+                            <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span className="sr-only">Close modal</span>
+                        </button>
                     </div>
-                </Modal.Body>
-            </Modal>
-        </>
+                    <form className="p-4 md:p-5" onSubmit={(e) => { e.preventDefault(); onUpdate(expense.id); }}>
+                        <div className="grid gap-4 mb-4 grid-cols-2">
+                            <div className="col-span-2">
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-white">Nom</label>
+                                <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" defaultValue={expense.name} required />
+                            </div>
+                            <div className="col-span-2 sm:col-span-1">
+                                <label htmlFor="price" className="block mb-2 text-sm font-medium text-white">Prix</label>
+                                <input type="number" name="price" id="price" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" defaultValue={expense.price} required />
+                            </div>
+                            <div className="col-span-2 sm:col-span-1">
+                                <label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Catégorie</label>
+                                <select id="category" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" defaultValue={expense.category}>
+                                    <option value="needs">Besoins</option>
+                                    <option value="wants">Plaisirs</option>
+                                    <option value="savings">Économies</option>
+                                </select>
+                            </div>
+                            <div className="col-span-2">
+                                <Datepicker language="FR" labelTodayButton="Aujourd'hui" labelClearButton="Réinitialiser" />
+                            </div>
+                        </div>
+                        <button type="submit"
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">
+                            Modifier
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     );
 }

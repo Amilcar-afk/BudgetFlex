@@ -1,35 +1,50 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import NeedsIcon from "../category/NeedsIcon";
 import WantsIcon from "../category/WantsIcon";
 import SavingIcon from "../category/SavingIcon";
-import {useContext, useEffect, useState} from "react";
-import {ModalDeleteExpenses} from "../modal/ModalDeleteExpenses";
+import { ModalDeleteExpenses } from "../modal/ModalDeleteExpenses";
+import { ModalUpdateExpenses } from "../modal/ModalUpdateExpenses";
 
 export default function ExpensesTable({ Expenses }) {
-    const [openModal, setOpenModal] = useState(false);
-    const [selectedExpenseId, setSelectedExpenseId] = useState(null);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openUpdateModal, setOpenUpdateModal] = useState(false);
+    const [selectedExpense, setSelectedExpense] = useState(null);
 
-    const handleDeleteClick = (id) => {
-        setSelectedExpenseId(id);
-        setOpenModal(true);
+    const handleDeleteClick = (expense) => {
+        setSelectedExpense(expense);
+        setOpenDeleteModal(true);
     };
 
-    const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedExpenseId(null);
+    const handleUpdateClick = (expense) => {
+        setSelectedExpense(expense);
+        setOpenUpdateModal(true);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setOpenDeleteModal(false);
+        setSelectedExpense(null);
+    };
+
+    const handleCloseUpdateModal = () => {
+        setOpenUpdateModal(false);
+        setSelectedExpense(null);
     };
 
     const handleConfirmDelete = () => {
-        // Ajoutez ici la logique pour supprimer la dépense avec l'ID `selectedExpenseId`
-        console.log('Expense deleted:', selectedExpenseId);
-        setOpenModal(false);
+        console.log('Expense deleted:', selectedExpense.id);
+        setOpenDeleteModal(false);
+    };
+
+    const handleConfirmUpdate = (id) => {
+        console.log('Expense updated:', id);
+        setOpenUpdateModal(false);
     };
 
     return (
         <div className="card">
             <div className="card-body">
-                <h4 className="card-title">Suivie des dépenses</h4>
+                <h4 className="card-title">Suivi des dépenses</h4>
                 <div className="table-responsive">
                     <table className="table">
                         <thead>
@@ -69,10 +84,10 @@ export default function ExpensesTable({ Expenses }) {
                                         {expense.category === 'savings' && <SavingIcon />}
                                     </td>
                                     <td>
-                                        <button className="btn" title="Modifier">
+                                        <button className="btn" title="Modifier" onClick={() => handleUpdateClick(expense)}>
                                             <i className="fas fa-pencil-alt"></i>
                                         </button>
-                                        <button className="btn" title="Supprimer" onClick={() => handleDeleteClick(expense.id)}>
+                                        <button className="btn" title="Supprimer" onClick={() => handleDeleteClick(expense)}>
                                             <i className="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -88,10 +103,18 @@ export default function ExpensesTable({ Expenses }) {
                 </div>
             </div>
             <ModalDeleteExpenses
-                open={openModal}
-                onClose={handleCloseModal}
+                open={openDeleteModal}
+                onClose={handleCloseDeleteModal}
                 onConfirm={handleConfirmDelete}
             />
+            {selectedExpense && (
+                <ModalUpdateExpenses
+                    open={openUpdateModal}
+                    onClose={handleCloseUpdateModal}
+                    onUpdate={handleConfirmUpdate}
+                    expense={selectedExpense}
+                />
+            )}
         </div>
     );
 }
