@@ -15046,6 +15046,8 @@ button.bg-secondary:focus {
 
 .bg-success, .swal2-modal .swal2-buttonswrapper .swal2-styled.swal2-confirm {
   background-color: #00d25b !important;
+  height: 25px !important;
+  width: 25px !important;
 }
 
 a.bg-success:hover, .swal2-modal .swal2-buttonswrapper a.swal2-styled.swal2-confirm:hover, a.bg-success:focus, .swal2-modal .swal2-buttonswrapper a.swal2-styled.swal2-confirm:focus,
@@ -15068,6 +15070,8 @@ button.bg-info:focus {
 
 .bg-warning {
   background-color: #ffab00 !important;
+  height: 25px !important;
+  width: 25px !important;
 }
 
 a.bg-warning:hover, a.bg-warning:focus,
@@ -15078,6 +15082,8 @@ button.bg-warning:focus {
 
 .bg-danger {
   background-color: #fc424a !important;
+  height: 25px !important;
+  width: 25px !important;
 }
 
 a.bg-danger:hover, a.bg-danger:focus,
@@ -25542,4 +25548,8 @@ div.tagsinput span.tag a {
 #root{
   background-color: #191c24;
   height: 100vh !important;
+}
+
+.typo-title{
+  font-size:1.5rem;
 }

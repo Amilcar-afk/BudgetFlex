@@ -6,9 +6,9 @@ import Box from '@mui/material/Box';
 
 
 const data = [
-    { value: 10, color: '#00d25b'},
-    { value: 70, color: "#ffab00" },
-    { value: 20, color: "#fc424a" },
+    { value: 10},
+    { value: 70 },
+    { value: 20},
 ];
 
 const pieParams = { height: 250, margin: { right: 5 } };
@@ -19,6 +19,12 @@ export default function PieChartDetailsStart() {
             <Box flexGrow={1}>
                 <Typography>Départ</Typography>
                 <PieChart
+                    PieLabel={(item, context) => {
+                        if ((item.value ?? 0) > 10) {
+                            return item.value;
+                        }
+                        return context.bar.height < 60 ? null : item.value?.toString();
+                    }}
                     series={[
                         {
                             data: data,

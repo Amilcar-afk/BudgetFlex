@@ -3,6 +3,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { color } from '@mui/system';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import {Typography} from "@mui/material";
 
 const pieParams = { height: 200, margin: { right: 5 } };
 
@@ -10,6 +11,7 @@ export default function BarChartDetails() {
     return (
         <>
             <Box flexGrow={1}>
+                <Typography className={"typo-title"}>Actuel</Typography>
                 <BarChart
                     series={[
                         { data: [8, 7, 4]},
@@ -21,7 +23,7 @@ export default function BarChartDetails() {
                         scaleType: 'band',
                         data: ['BESOINS', 'PLAISIRS', 'ECONOMIES'],
                         categoryGapRatio: 0.1,
-                        barGapRatio: 0.1
+                        barGapRatio: 0.1,
                     }]}
 
                     /*barLabel={(item, context) => {
