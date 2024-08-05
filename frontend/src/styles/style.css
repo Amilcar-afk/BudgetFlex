@@ -15026,6 +15026,8 @@ a.close.disabled {
 
 .bg-primary {
   background-color: #0090e7 !important;
+  margin:25px !important;
+  height:25px !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
@@ -21334,8 +21336,8 @@ div.tagsinput {
 }
 .preview-list .preview-item .preview-thumbnail img,
 .preview-list .preview-item .preview-thumbnail .preview-icon {
-  width: 40px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   text-align: center;
   display: -webkit-flex;
   display: flex;
@@ -25521,6 +25523,7 @@ div.tagsinput span.tag a {
 .card-container{
   display: flex;
   justify-content: space-between;
+  margin-left: 10px;
   align-items: center;
 }
 

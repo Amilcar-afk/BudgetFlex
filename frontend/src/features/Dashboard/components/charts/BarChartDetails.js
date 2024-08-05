@@ -11,7 +11,6 @@ export default function BarChartDetails() {
     return (
         <>
             <Box flexGrow={1}>
-                <Typography className={"typo-title"}>Actuel</Typography>
                 <BarChart
                     series={[
                         { data: [8, 7, 4]},

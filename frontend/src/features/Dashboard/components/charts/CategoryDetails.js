@@ -9,7 +9,7 @@ export default function CategoryDetails() {
             <div className="card">
                 <div className="card-body">
                     <h4 className="card-title">Détails</h4>
-                    <Stack className="charts-container" direction="row" width="100%" textAlign="center" spacing={2}>
+                    <div className="row charts-container">
                         <div className="col-sm-4 grid-margin">
                             <PieChartDetailsStart />
                         </div>
@@ -19,7 +19,7 @@ export default function CategoryDetails() {
                         <div className="col-sm-4 grid-margin">
                             <PieChartDetailsActual />
                         </div>
-                    </Stack>
+                    </div>
                 </div>
             </div>
         </div>

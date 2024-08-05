@@ -5,10 +5,12 @@ import WantsIcon from "../category/WantsIcon";
 import SavingIcon from "../category/SavingIcon";
 import { ModalDeleteExpenses } from "../modal/ModalDeleteExpenses";
 import { ModalUpdateExpenses } from "../modal/ModalUpdateExpenses";
+import { ModalCreateExpense} from "../modal/ModalCreateExpenses";
 
 export default function ExpensesTable({ Expenses }) {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
+    const [openCreateModal, setOpenCreateModal] = useState(false);
     const [selectedExpense, setSelectedExpense] = useState(null);
 
     const handleDeleteClick = (expense) => {
@@ -41,10 +43,31 @@ export default function ExpensesTable({ Expenses }) {
         setOpenUpdateModal(false);
     };
 
+    const handleCreateClick = () => {
+        setOpenCreateModal(true);
+    };
+
+
+    const handleCloseCreateModal = () => {
+        setOpenCreateModal(false);
+    };
+
+    const handleCreateExpense = (newExpense) => {
+        console.log('Expense created:', newExpense);
+        setOpenCreateModal(false);
+    };
+
     return (
         <div className="card">
             <div className="card-body">
-                <h4 className="card-title">Suivi des dépenses</h4>
+                <div className="flex justify-between items-center mb-4">
+                    <h4 className="card-title">Suivi des dépenses</h4>
+                    <button
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
+                        onClick={handleCreateClick}>
+                        <i className="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
                 <div className="table-responsive">
                     <table className="table">
                         <thead>
@@ -52,7 +75,7 @@ export default function ExpensesTable({ Expenses }) {
                             <th>
                                 <div className="form-check form-check-muted m-0">
                                     <label className="form-check-label">
-                                        <input type="checkbox" className="form-check-input" />
+                                        <input type="checkbox" className="form-check-input"/>
                                     </label>
                                 </div>
                             </th>
@@ -115,6 +138,11 @@ export default function ExpensesTable({ Expenses }) {
                     expense={selectedExpense}
                 />
             )}
+            <ModalCreateExpense
+                open={openCreateModal}
+                onClose={handleCloseCreateModal}
+                onCreate={handleCreateExpense}
+            />
         </div>
     );
 }
