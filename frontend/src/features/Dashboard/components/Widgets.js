@@ -89,7 +89,7 @@ const Widgets = ({ budgetData }) => {
                     </div>
                 </div>
                 <div className="col-md-9 grid-margin stretch-card">
-                    <ExpensesTable Expenses={userExpenses}/>
+                    <ExpensesTable budgetMonthId={budgetData.id} initialExpenses={userExpenses}/>
                 </div>
             </div>
 

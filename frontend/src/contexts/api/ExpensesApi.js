@@ -4,11 +4,13 @@ const route = '/expenses';
 
 const ExpensesApi = {
     add: async function (data) {
-        return sendRequest(route +'/new', 'POST', {data}, true);
+        console.log("apii")
+        console.log(data)
+        return sendRequest(route +'/new', 'POST', data, true);
     },
 
     edit: async function (id, data) {
-        return sendRequest(route +`/${id}/edit`, 'PUT', {data}, true);
+        return sendRequest(route +`/${id}/edit`, 'PUT', data, true);
     },
 
     getBudgetMonthExpenses: async function (budgetMonthId) {

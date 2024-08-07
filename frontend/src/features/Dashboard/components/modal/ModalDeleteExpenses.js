@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-
 export function ModalDeleteExpenses({ open, onClose, onConfirm }) {
     if (!open) return null;
 

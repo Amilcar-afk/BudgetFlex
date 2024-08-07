@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import 'flowbite/dist/flowbite.css';
 import 'tailwindcss/tailwind.css';
 import './styles/style.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import DashboardPage from "./features/Dashboard/DashboardPage";
 import UserProvider from "./contexts/AuthContext";
 import RegisterPage from "./features/Auth/RegisterPage";

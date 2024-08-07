@@ -1,7 +1,48 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {Datepicker} from "flowbite-react";
+import {ExpensesContext} from "../../../../contexts/ExpensesContext";
 
 export function ModalUpdateExpenses({ open, onClose, onUpdate, expense }) {
+
+    const { addExpenses } = useContext(ExpensesContext);
+    const [newExpenses, setNewExpenses] = useState({
+        name: '',
+        price: 0.0,
+        category: 'needs',
+        date: new Date(),
+        budgetMonth: budgetMonthId,
+    });
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formattedDate = formatDate(selectedDate);
+        const expenseToSubmit = {
+            ...newExpenses,
+            date: formattedDate,
+            price: parseFloat(newExpenses.price),
+        };
+
+        const response = await addExpenses(expenseToSubmit);
+
+        if (response.status === 201) {
+            onCreate(expenseToSubmit);
+        }
+        onClose();
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setNewExpenses((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
+
     if (!open) return null;
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import NeedsIcon from "../category/NeedsIcon";
 import WantsIcon from "../category/WantsIcon";
@@ -6,21 +6,27 @@ import SavingIcon from "../category/SavingIcon";
 import { ModalDeleteExpenses } from "../modal/ModalDeleteExpenses";
 import { ModalUpdateExpenses } from "../modal/ModalUpdateExpenses";
 import { ModalCreateExpense} from "../modal/ModalCreateExpenses";
+import {ExpensesContext} from "../../../../contexts/ExpensesContext";
 
-export default function ExpensesTable({ Expenses }) {
+export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
     const [openCreateModal, setOpenCreateModal] = useState(false);
     const [selectedExpense, setSelectedExpense] = useState(null);
+    const [expenses, setExpenses] = useState([]);
+    const {deleteExpenses} = useContext(ExpensesContext);
 
+    useEffect(() => {
+        if (initialExpenses) {
+            setExpenses(initialExpenses);
+        }
+    }, [initialExpenses]);
+
+
+    /* EVENTS FOR DELETE EXPENSES*/
     const handleDeleteClick = (expense) => {
         setSelectedExpense(expense);
         setOpenDeleteModal(true);
-    };
-
-    const handleUpdateClick = (expense) => {
-        setSelectedExpense(expense);
-        setOpenUpdateModal(true);
     };
 
     const handleCloseDeleteModal = () => {
@@ -28,20 +34,36 @@ export default function ExpensesTable({ Expenses }) {
         setSelectedExpense(null);
     };
 
+    const handleConfirmDelete = async () => {
+        const expenseId = selectedExpense.id;
+        const response = await deleteExpenses(expenseId);
+        if (response.status === 204) {
+            setExpenses(expenses.filter(expense => expense.id !== expenseId));
+        }
+        setOpenDeleteModal(false);
+    };
+    /***********************/
+
+    /* EVENTS FOR UPDATE EXPENSES */
+    const handleUpdateClick = (expense) => {
+        setSelectedExpense(expense);
+        setOpenUpdateModal(true);
+    };
+
     const handleCloseUpdateModal = () => {
         setOpenUpdateModal(false);
         setSelectedExpense(null);
-    };
-
-    const handleConfirmDelete = () => {
-        console.log('Expense deleted:', selectedExpense.id);
-        setOpenDeleteModal(false);
     };
 
     const handleConfirmUpdate = (id) => {
         console.log('Expense updated:', id);
         setOpenUpdateModal(false);
     };
+
+    /************************/
+
+
+    /* EVENTS FOR CREATE EXPENSES*/
 
     const handleCreateClick = () => {
         setOpenCreateModal(true);
@@ -53,9 +75,11 @@ export default function ExpensesTable({ Expenses }) {
     };
 
     const handleCreateExpense = (newExpense) => {
-        console.log('Expense created:', newExpense);
+        setExpenses([...expenses, newExpense]);
         setOpenCreateModal(false);
     };
+
+    /******************/
 
     return (
         <div className="card">
@@ -87,8 +111,8 @@ export default function ExpensesTable({ Expenses }) {
                         </tr>
                         </thead>
                         <tbody>
-                        {Expenses && Expenses.length > 0 ? (
-                            Expenses.map((expense) => (
+                        {expenses && expenses.length > 0 ? (
+                            expenses.map((expense) => (
                                 <tr key={expense.id}>
                                     <td>
                                         <div className="form-check form-check-muted m-0">
@@ -142,6 +166,7 @@ export default function ExpensesTable({ Expenses }) {
                 open={openCreateModal}
                 onClose={handleCloseCreateModal}
                 onCreate={handleCreateExpense}
+                budgetMonthId={budgetMonthId}
             />
         </div>
     );

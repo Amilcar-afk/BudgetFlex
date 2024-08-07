@@ -1,24 +1,57 @@
-import React, { useState } from 'react';
-import { Datepicker } from 'flowbite-react';
+import React, {useContext, useState, useRef} from 'react';
+import DatePicker from 'react-datepicker';
+import {ExpensesContext} from "../../../../contexts/ExpensesContext";
 
-export function ModalCreateExpense({ open, onClose, onCreate }) {
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [category, setCategory] = useState('needs');
-    const [date, setDate] = useState(new Date());
-    const [description, setDescription] = useState('');
+const formatDate = (date) => {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
 
-    const handleSubmit = (e) => {
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+};
+
+export function ModalCreateExpense({ open, onClose, onCreate, budgetMonthId }) {
+    const { addExpenses } = useContext(ExpensesContext);
+    const [newExpenses, setNewExpenses] = useState({
+        name: '',
+        price: 0.0,
+        category: 'needs',
+        date: new Date(),
+        budgetMonth: budgetMonthId,
+    });
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newExpense = {
-            id: Date.now(),
-            name,
-            price,
-            category,
-            date,
-            description
+        const formattedDate = formatDate(selectedDate);
+        const expenseToSubmit = {
+            ...newExpenses,
+            date: formattedDate,
+            price: parseFloat(newExpenses.price),
         };
-        onCreate(newExpense);
+
+        const response = await addExpenses(expenseToSubmit);
+
+        if (response.status === 201) {
+            onCreate(expenseToSubmit);
+        }
+        onClose();
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setNewExpenses((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
     };
 
     if (!open) return null;
@@ -46,15 +79,17 @@ export function ModalCreateExpense({ open, onClose, onCreate }) {
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-white">Nom</label>
-                                <input type="text" name="name" id="name" className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white" value={name} onChange={(e) => setName(e.target.value)} required />
+                                <input type="text" name="name" id="name" className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white" value={newExpenses.name} onChange={handleChange} required />
                             </div>
                             <div className="col-span-2 sm:col-span-1">
                                 <label htmlFor="price" className="block mb-2 text-sm font-medium text-white">Prix</label>
-                                <input type="number" name="price" id="price" className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white" value={price} onChange={(e) => setPrice(e.target.value)} required />
+                                <input type="number" name="price" id="price" className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white" value={newExpenses.price} onChange={handleChange} required />
                             </div>
                             <div className="col-span-2 sm:col-span-1">
                                 <label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Catégorie</label>
-                                <select id="category" className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white" value={category} onChange={(e) => setCategory(e.target.value)}>
+                                <select name="category" id="category"
+                                        className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white"
+                                        value={newExpenses.category} onChange={handleChange}>
                                     <option value="needs">Besoins</option>
                                     <option value="wants">Plaisirs</option>
                                     <option value="savings">Économies</option>
@@ -63,21 +98,20 @@ export function ModalCreateExpense({ open, onClose, onCreate }) {
                             <div className="col-span-2">
                                 <label htmlFor="date" className="block mb-2 text-sm font-medium text-white">Date</label>
                                 <div className="dark-datepicker">
-                                    <Datepicker
-                                        selected={date}
-                                        onChange={(date) => setDate(date)}
-                                        weekStart={1}
+                                    <DatePicker
+                                        onChange={handleDateChange}
                                     />
+                                    {selectedDate && (
+                                        <div>
+                                            Date sélectionnée : {selectedDate.toLocaleDateString()}
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                            <div className="col-span-2">
-                                <label htmlFor="description" className="block mb-2 text-sm font-medium text-white">Description</label>
-                                <textarea id="description" rows="4" className="block p-2.5 w-full text-sm bg-gray-600 rounded-lg border border-gray-500 focus:ring-primary-500 focus:border-primary-500 text-white" value={description} onChange={(e) => setDescription(e.target.value)} />
                             </div>
                         </div>
                         <button type="submit"
                                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">
-                            Ajouter
+                            Créer
                         </button>
                     </form>
                 </div>

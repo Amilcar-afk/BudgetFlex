@@ -10,10 +10,12 @@ const ExpensesProvider = ({ children }) => {
 
     const addExpenses = async (data) => {
         try{
+            console.log(data)
             const response = await ExpensesApi.add(data);
-            if (response.status === 200) {
+            if (response.status === 201) {
                 toast.success(`Votre dépense a bien été enregistré`);
             }
+            return response;
         } catch (error) {
             console.error(error);
             toast.error(`Votre dépense n'a pas été enregistré`);
@@ -26,9 +28,23 @@ const ExpensesProvider = ({ children }) => {
             if(response.status === 204){
                 toast.success(`Votre dépense a bien été modifié`);
             }
+            return response;
         }catch(error){
             console.error(error);
             toast.error(`Votre dépense n'a pas été modifié`);
+        }
+    }
+
+    const deleteExpenses = async (id) => {
+        try{
+            const response = await ExpensesApi.delete(id);
+            if(response.status === 204){
+                toast.success(`Votre dépense a bien été supprimé`);
+            }
+            return response;
+        }catch(error){
+            console.error(error);
+            toast.error(`Votre dépense n'a pas été supprimé`);
         }
     }
 
@@ -48,7 +64,7 @@ const ExpensesProvider = ({ children }) => {
     };
 
     return (
-        <ExpensesContext.Provider value={{ addExpenses, getUserExpenses, userExpenses }}>
+        <ExpensesContext.Provider value={{ addExpenses, getUserExpenses, userExpenses, deleteExpenses }}>
             <ToastContainer />
             {children}
         </ExpensesContext.Provider>

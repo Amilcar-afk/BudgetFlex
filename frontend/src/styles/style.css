@@ -8733,7 +8733,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
-  font-size: 1.75rem;
+  font-size: 1rem;
 }
 
 h4, .h4 {
@@ -18741,7 +18741,7 @@ h2,
 
 h3,
 .h3 {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 h4,
@@ -21549,7 +21549,6 @@ div.tagsinput {
 /* Tables */
 .table, .jsgrid .jsgrid-table {
   margin-bottom: 0;
-  color: #6c7293;
 }
 .table thead th, .jsgrid .jsgrid-table thead th {
   border-top: 0;

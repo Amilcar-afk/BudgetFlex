@@ -6,7 +6,10 @@ const axiosInstance = axios.create({
     baseURL: "http://localhost:8000",
 });
 
-const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = true, params = {}, userId = null) => {
+const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = true, params = {}, contentType = 'application/json') => {
+    console.log("axioos")
+    console.log(method)
+    console.log(data)
     try {
         return await axiosInstance({
             url: endpoint,
@@ -14,7 +17,7 @@ const sendRequest = async (endpoint, method = 'GET', data = {}, requireAuth = tr
             data,
             params,
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': contentType,
                 'Accept': '*/*'
             },
         })
