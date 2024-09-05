@@ -24,9 +24,10 @@ const ExpensesProvider = ({ children }) => {
 
     const editExpenses = async (id, data) => {
         try{
-            const response =  ExpensesApi.edit(id, data);
+            const response =  await ExpensesApi.edit(id, data);
             if(response.status === 204){
                 toast.success(`Votre dépense a bien été modifié`);
+                return data;
             }
             return response;
         }catch(error){
@@ -64,7 +65,7 @@ const ExpensesProvider = ({ children }) => {
     };
 
     return (
-        <ExpensesContext.Provider value={{ addExpenses, getUserExpenses, userExpenses, deleteExpenses }}>
+        <ExpensesContext.Provider value={{ addExpenses, getUserExpenses, userExpenses, deleteExpenses, editExpenses }}>
             <ToastContainer />
             {children}
         </ExpensesContext.Provider>

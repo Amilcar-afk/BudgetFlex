@@ -1,42 +1,70 @@
-import React, {useContext, useState} from 'react';
-import {Datepicker} from "flowbite-react";
-import {ExpensesContext} from "../../../../contexts/ExpensesContext";
+import React, { useContext, useState, useEffect } from 'react';
+import { Datepicker } from "flowbite-react";
+import { ExpensesContext } from "../../../../contexts/ExpensesContext";
+import DatePicker from "react-datepicker";
 
-export function ModalUpdateExpenses({ open, onClose, onUpdate, expense }) {
+// Fonction pour formater la date en 'YYYY-MM-DD'
+const formatDate = (date) => {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
 
-    const { addExpenses } = useContext(ExpensesContext);
-    const [newExpenses, setNewExpenses] = useState({
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+};
+
+export function ModalUpdateExpenses({ open, onClose, expense }) {
+    const { editExpenses } = useContext(ExpensesContext);
+    const [updatedExpense, setUpdatedExpense] = useState({
         name: '',
         price: 0.0,
         category: 'needs',
         date: new Date(),
-        budgetMonth: budgetMonthId,
+        budgetMonth: expense.budgetMonthId,
     });
     const [selectedDate, setSelectedDate] = useState(null);
+
+    useEffect(() => {
+        if (expense) {
+            setUpdatedExpense({
+                name: expense.name,
+                price: expense.price,
+                category: expense.category,
+                date: new Date(expense.date),
+                budgetMonth: expense.budgetMonthId,
+            });
+            setSelectedDate(new Date(expense.date));
+        }
+    }, [expense]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formattedDate = formatDate(selectedDate);
         const expenseToSubmit = {
-            ...newExpenses,
+            ...updatedExpense,
             date: formattedDate,
-            price: parseFloat(newExpenses.price),
+            price: parseFloat(updatedExpense.price),
         };
 
-        const response = await addExpenses(expenseToSubmit);
+        const response = await editExpenses(expense.id, expenseToSubmit);
 
-        if (response.status === 201) {
-            onCreate(expenseToSubmit);
+        if (response.status === 204) {
+            expense = expenseToSubmit;
         }
         onClose();
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setNewExpenses((prevState) => ({
+        setUpdatedExpense((prevState) => ({
             ...prevState,
             [name]: value,
         }));
+
+        console.log(updatedExpense);
     };
 
     const handleDateChange = (date) => {
@@ -64,26 +92,36 @@ export function ModalUpdateExpenses({ open, onClose, onUpdate, expense }) {
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <form className="p-4 md:p-5" onSubmit={(e) => { e.preventDefault(); onUpdate(expense.id); }}>
+                    <form className="p-4 md:p-5" onSubmit={handleSubmit}>
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-white">Nom</label>
-                                <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" defaultValue={expense.name} required />
+                                <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
+                                       value={updatedExpense.name} onChange={handleChange} required />
                             </div>
                             <div className="col-span-2 sm:col-span-1">
                                 <label htmlFor="price" className="block mb-2 text-sm font-medium text-white">Prix</label>
-                                <input type="number" name="price" id="price" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" defaultValue={expense.price} required />
+                                <input type="number" name="price" id="price" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
+                                       value={updatedExpense.price} onChange={handleChange} required />
                             </div>
                             <div className="col-span-2 sm:col-span-1">
                                 <label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Catégorie</label>
-                                <select id="category" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" defaultValue={expense.category}>
+                                <select name="category" id="category" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
+                                        value={updatedExpense.category} onChange={handleChange}>
                                     <option value="needs">Besoins</option>
                                     <option value="wants">Plaisirs</option>
                                     <option value="savings">Économies</option>
                                 </select>
                             </div>
                             <div className="col-span-2">
-                                <Datepicker language="FR" labelTodayButton="Aujourd'hui" labelClearButton="Réinitialiser" />
+                                <DatePicker
+                                    onChange={handleDateChange}
+                                />
+                                {selectedDate && (
+                                    <div>
+                                        Date sélectionnée : {selectedDate.toLocaleDateString()}
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <button type="submit"

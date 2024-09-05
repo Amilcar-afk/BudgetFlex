@@ -55,11 +55,6 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
         setSelectedExpense(null);
     };
 
-    const handleConfirmUpdate = (id) => {
-        console.log('Expense updated:', id);
-        setOpenUpdateModal(false);
-    };
-
     /************************/
 
 
@@ -158,7 +153,6 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
                 <ModalUpdateExpenses
                     open={openUpdateModal}
                     onClose={handleCloseUpdateModal}
-                    onUpdate={handleConfirmUpdate}
                     expense={selectedExpense}
                 />
             )}

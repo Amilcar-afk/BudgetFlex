@@ -123,16 +123,24 @@ class ExpensesController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
-    /*#[Route('/{id}', name: 'app_expenses_delete', methods: ['DELETE'])]
-    public function delete(Request $request, Expenses $expense, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'app_expenses_delete', methods: ['DELETE'])]
+    public function delete(Request $request, Expenses $expense, EntityManagerInterface $entityManager): JsonResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$expense->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($expense);
-            $entityManager->flush();
+        $user = $this->getUser();
+        if (!$user) {
+            throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        return $this->redirectToRoute('app_expenses_index', [], Response::HTTP_SEE_OTHER);
-    }*/
+        $budgetMonth = $expense->getBudgetMonth();
+        if ($budgetMonth->getUserId()->getId() !== $user->getId()) {
+            throw new AccessDeniedException('You do not have permission to delete this expense.');
+        }
+
+        $entityManager->remove($expense);
+        $entityManager->flush();
+
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
 
     #[Route('/budget/{budgetMonthId}', name: 'app_expenses_by_budget', methods: ['GET'])]
     public function getExpensesByBudgetMonth(int $budgetMonthId, BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): JsonResponse
