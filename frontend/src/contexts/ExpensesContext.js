@@ -13,6 +13,8 @@ const ExpensesProvider = ({ children }) => {
         try{
             const response = await ExpensesApi.add(data);
             if (response.status === 201) {
+                setUserExpenses((prevExpenses) => [...prevExpenses, response.data]);
+                console.log(userExpenses)
                 toast.success(`Votre dépense a bien été enregistré`);
             }
             console.log(response.data);
@@ -27,6 +29,9 @@ const ExpensesProvider = ({ children }) => {
         try{
             const response =  await ExpensesApi.edit(id, data);
             if(response.status === 204){
+                setUserExpenses((prevExpenses) =>
+                    prevExpenses.map(expense => expense.id === id ? { ...expense, ...data } : expense)
+                );
                 toast.success(`Votre dépense a bien été modifié`);
                 return data;
             }
@@ -41,6 +46,7 @@ const ExpensesProvider = ({ children }) => {
         try{
             const response = await ExpensesApi.delete(id);
             if(response.status === 204){
+                setUserExpenses((prevExpenses) => prevExpenses.filter(expense => expense.id !== id));
                 toast.success(`Votre dépense a bien été supprimé`);
             }
             return response;
