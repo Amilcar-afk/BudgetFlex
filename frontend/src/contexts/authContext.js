@@ -19,11 +19,10 @@ const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const response = await AuthApi.login(credentials);
-            console.log(response)
             if (response && response.data.token) {
-                console.log("over here")
                 localStorage.setItem('jwtToken', response.data.token);
                 setCurrentUser(response.data.user);
+                console.log(response);
                 return response.status;
             }
         } catch (error) {
@@ -42,7 +41,7 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ currentUser, register, login, logout}}>
+        <AuthContext.Provider value={{ currentUser, register, login, logout, setCurrentUser}}>
             {children}
         </AuthContext.Provider>
     );

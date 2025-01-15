@@ -11,23 +11,26 @@ import LoginPage from "./features/Auth/LoginPage";
 import BudgetMonthProvider from "./contexts/BudgetMonthContext";
 import LogoutPage from "./features/Auth/LogoutPage";
 import ExpensesProvider from "./contexts/ExpensesContext";
+import AuthProvider from "./contexts/AuthContext";
 
 
 function App() {
     return (
         <BrowserRouter>
-            <UserProvider>
-                <BudgetMonthProvider>
-                    <ExpensesProvider>
-                        <Routes>
-                            <Route path="/dashboard" element={<DashboardPage/>} />
-                            <Route path="/register" element={<RegisterPage/>} />
-                            <Route path="/login" element={<LoginPage/>} />
-                            <Route path="/logout" element={<LogoutPage/>} />
-                        </Routes>
-                    </ExpensesProvider>
-                </BudgetMonthProvider>
-            </UserProvider>
+            <AuthProvider>
+                <UserProvider>
+                    <BudgetMonthProvider>
+                        <ExpensesProvider>
+                            <Routes>
+                                <Route path="/dashboard" element={<DashboardPage/>} />
+                                <Route path="/register" element={<RegisterPage/>} />
+                                <Route path="/login" element={<LoginPage/>} />
+                                <Route path="/logout" element={<LogoutPage/>} />
+                            </Routes>
+                        </ExpensesProvider>
+                    </BudgetMonthProvider>
+                </UserProvider>
+            </AuthProvider>
         </BrowserRouter>
     );
 }

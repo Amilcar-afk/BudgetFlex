@@ -1,16 +1,17 @@
 import React, {useContext, useEffect} from 'react';
 import Widgets from './Widgets';
 import {BudgetMonthContext} from "../../../contexts/BudgetMonthContext";
+import {AuthContext} from "../../../contexts/AuthContext";
 import { Spinner } from "flowbite-react";
 
 const MainPanel = () => {
 
-    const { getActiveBudgetMonth, activeBudgetMonth } = useContext(BudgetMonthContext)
+    const { getActiveBudgetMonth, activeBudgetMonth } = useContext(BudgetMonthContext);
+    const {currentUser, setCurrentUser} = useContext(AuthContext);
 
     useEffect(() => {
-        getActiveBudgetMonth(18);
-        console.log("useEffect")
-    }, []);
+        getActiveBudgetMonth(1);
+    }, [currentUser]);
 
     return (
         <div className="main-panel">

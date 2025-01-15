@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useContext, useState} from 'react';
 import ExpensesApi from './api/ExpensesApi';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,13 +8,14 @@ export const ExpensesContext = createContext(null);
 const ExpensesProvider = ({ children }) => {
     const [userExpenses, setUserExpenses] = useState(null);
 
+
     const addExpenses = async (data) => {
         try{
-            console.log(data)
             const response = await ExpensesApi.add(data);
             if (response.status === 201) {
                 toast.success(`Votre dépense a bien été enregistré`);
             }
+            console.log(response.data);
             return response;
         } catch (error) {
             console.error(error);

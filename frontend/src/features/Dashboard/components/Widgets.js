@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PieChartForSubCategory from "./charts/PieChartForSubCategory";
 import BarChartBankBalance from "./charts/BarChartBankBalance";
 import ExpensesTable from "../components/table/ExpensesTable";
@@ -10,12 +10,26 @@ import { ExpensesContext } from "../../../contexts/ExpensesContext";
 
 const Widgets = ({ budgetData }) => {
     const { getUserExpenses, userExpenses } = useContext(ExpensesContext);
+    const [currentBalance, setCurrentBalance] = useState(0);
+
+    // calculate all the expenses
+    const calculateTotalExpenses = (expenses) => {
+        return expenses.reduce((total, expense) => total + expense.price, 0);
+    };
 
     useEffect(() => {
         if (budgetData && budgetData.id) {
             getUserExpenses(budgetData.id);
         }
     }, []);
+
+    useEffect(() => {
+        if (budgetData && userExpenses) {
+            const totalExpenses = calculateTotalExpenses(userExpenses);
+            const updatedBalance = budgetData.initialBudget - totalExpenses;
+            setCurrentBalance(updatedBalance);
+        }
+    }, [budgetData, userExpenses]);
 
     return (
         <>
@@ -50,10 +64,10 @@ const Widgets = ({ budgetData }) => {
                             <div className="row">
                                 <div className="col-8 col-sm-12 col-xl-8 my-auto">
                                     <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                        <h2 className="mb-0">2 039 €</h2>
-                                        <p className="text-danger ml-2 mb-0 font-weight-medium">-2.1% </p>
+                                        <h2 className="mb-0">{currentBalance ? `${currentBalance.toLocaleString()} €` : '0 €'}</h2>
+                                        {/* Vous pouvez ajouter des indicateurs basés sur vos données */}
                                     </div>
-                                    <h6 className="text-muted font-weight-normal">2.27% Since last month</h6>
+                                    <h6 className="text-muted font-weight-normal">Mise à jour avec les dépenses</h6>
                                 </div>
                                 <div className="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
                                     <i className="icon-lg mdi mdi-monitor text-success ml-auto"></i>
@@ -69,20 +83,23 @@ const Widgets = ({ budgetData }) => {
                         <div className="card-body">
                             <h4 className="card-title">Transaction History</h4>
                             <BarChartBankBalance/>
-                            <div className="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                            <div
+                                className="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                                 <div className="text-md-center text-xl-left">
                                     <h6 className="mb-1">Solde de Départ</h6>
                                 </div>
-                                <div className="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                                    <h6 className="font-weight-bold mb-0">32 123 €</h6>
+                                <div
+                                    className="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                    <h6 className="font-weight-bold mb-0">{budgetData ? `${budgetData.initialBudget.toLocaleString()} €` : '0 €'}</h6>
                                 </div>
                             </div>
-                            <div className="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                            <div
+                                className="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                                 <div className="text-md-center text-xl-left">
                                     <h6 className="mb-1">Solde Actuel</h6>
                                 </div>
                                 <div className="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                                    <h6 className="font-weight-bold mb-0">8000 €</h6>
+                                    <h6 className="font-weight-bold mb-0">{currentBalance ? `${currentBalance.toLocaleString()} €` : '0 €'}</h6>
                                 </div>
                             </div>
                         </div>

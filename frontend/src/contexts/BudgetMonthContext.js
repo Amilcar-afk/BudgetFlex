@@ -7,6 +7,7 @@ export const BudgetMonthContext = createContext(null);
 
 const BudgetMonthProvider = ({ children }) => {
     const [activeBudgetMonth, setActiveBudgetMonth] = useState(null);
+    const [currentBalance, setCurrentBalance] = useState(0);
 
     const addBudgetMonth = async (data) => {
         try{
@@ -56,7 +57,7 @@ const BudgetMonthProvider = ({ children }) => {
     }*/
 
     return (
-        <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth, activeBudgetMonth }}>
+        <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth, activeBudgetMonth, currentBalance, setCurrentBalance }}>
             <ToastContainer />
             {children}
         </BudgetMonthContext.Provider>
