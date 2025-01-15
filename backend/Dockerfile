@@ -21,8 +21,14 @@ RUN a2enmod rewrite && \
 # Installez Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Définir le répertoire de travail
+# Copiez les fichiers du projet Symfony dans le conteneur
+COPY . /var/www/html
+
+# Exécutez composer install pour installer les dépendances Symfony
 WORKDIR /var/www/html
+RUN composer install --no-interaction --optimize-autoloader
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Commande par défaut
 CMD ["apache2-foreground"]

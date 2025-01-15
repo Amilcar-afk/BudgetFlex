@@ -51,7 +51,13 @@ class SecurityController extends AbstractController
 
         $token = $this->jwtManager->create($user);
 
-        return new JsonResponse(['token' => $token], Response::HTTP_OK);
+        return new JsonResponse([
+            'token' => $token,
+            'id' => $user->getId(),
+            'email' => $user->getEmail(),
+            'firstname' => $user->getFirstname(),
+            'lastname' => $user->getLastname(),
+        ], Response::HTTP_OK);
     }
 
     #[Route('/login_check', name: 'app_login_check', methods: ['POST'])]
