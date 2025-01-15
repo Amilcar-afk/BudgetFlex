@@ -30,10 +30,7 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
 
     const handleConfirmDelete = async () => {
         const expenseId = selectedExpense.id;
-        const response = await deleteExpenses(expenseId);
-        /*if (response.status === 204) {
-            SetUserExpenses(userExpenses.filter(expense => expense.id !== expenseId));
-        }*/
+        await deleteExpenses(expenseId);
         setOpenDeleteModal(false);
     };
     /***********************/
