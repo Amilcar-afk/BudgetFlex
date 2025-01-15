@@ -50,6 +50,9 @@ class BudgetMonthController extends AbstractController
         $budgetMonth->setMonth($data['month']);
         $budgetMonth->setInitialBudget($data['initialBudget']);
         $budgetMonth->setState($data['state']);
+        $budgetMonth->setNeedsCategory($data['needs']);
+        $budgetMonth->setSavingCategory($data['saving']);
+        $budgetMonth->setWantsCategory($data['wants']);
 
         $user = $entityManager->getRepository(User::class)->find($data['user']);
         if (!$user) {
@@ -107,6 +110,15 @@ class BudgetMonthController extends AbstractController
         }
         if (isset($data['state'])) {
             $budgetMonth->setState($data['state']);
+        }
+        if (isset($data['needs'])) {
+            $budgetMonth->setNeedsCategory($data['needs']);
+        }
+        if (isset($data['saving'])) {
+            $budgetMonth->setSavingCategory($data['saving']);
+        }
+        if (isset($data['wants'])) {
+            $budgetMonth->setWantsCategory($data['wants']);
         }
 
         $entityManager->flush();

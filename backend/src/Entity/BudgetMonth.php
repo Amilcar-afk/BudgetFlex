@@ -44,6 +44,18 @@ class BudgetMonth
     #[ORM\OneToMany(targetEntity: Expenses::class, mappedBy: 'budgetMonth')]
     private Collection $expenses;
 
+    #[ORM\Column]
+    #[Groups(['budget_list','budget_details'])]
+    private ?float $wantsCategory = 0;
+
+    #[ORM\Column]
+    #[Groups(['budget_list','budget_details'])]
+    private ?float $needsCategory = 0;
+
+    #[ORM\Column]
+    #[Groups(['budget_list','budget_details'])]
+    private ?float $savingCategory = 0;
+
     public function __construct()
     {
         $this->expenses = new ArrayCollection();
@@ -140,6 +152,42 @@ class BudgetMonth
                 $expense->setBudgetMonth(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWantsCategory(): ?float
+    {
+        return $this->wantsCategory;
+    }
+
+    public function setWantsCategory(float $wantsCategory): static
+    {
+        $this->wantsCategory = $wantsCategory;
+
+        return $this;
+    }
+
+    public function getNeedsCategory(): ?float
+    {
+        return $this->needsCategory;
+    }
+
+    public function setNeedsCategory(float $needsCategory): static
+    {
+        $this->needsCategory = $needsCategory;
+
+        return $this;
+    }
+
+    public function getSavingCategory(): ?float
+    {
+        return $this->savingCategory;
+    }
+
+    public function setSavingCategory(float $savingCategory): static
+    {
+        $this->savingCategory = $savingCategory;
 
         return $this;
     }

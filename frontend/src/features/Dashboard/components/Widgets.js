@@ -19,6 +19,7 @@ const Widgets = ({ budgetData }) => {
 
     useEffect(() => {
         if (budgetData && budgetData.id) {
+            console.log(budgetData);
             getUserExpenses(budgetData.id);
         }
     }, []);
@@ -119,7 +120,7 @@ const Widgets = ({ budgetData }) => {
                                 <div className="row">
                                     <div /*className="col-8 col-sm-12 col-xl-8 my-auto"*/>
                                         <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                            <h3 className="mb-0">32 123 € / 40 000 €</h3>
+                                            <h3 className="mb-0">1 009 € / {budgetData ? `${budgetData.needsCategory.toLocaleString()} €` : '8600 €'}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -138,7 +139,7 @@ const Widgets = ({ budgetData }) => {
                                 <div className="row">
                                     <div /*className="col-8 col-sm-12 col-xl-8 my-auto"*/>
                                         <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                            <h3 className="mb-0">45 850 € / 50 000 €</h3>
+                                            <h3 className="mb-0">8 039 € / {budgetData ? `${budgetData.wantsCategory.toLocaleString()} €` : '4000 €'}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -157,7 +158,7 @@ const Widgets = ({ budgetData }) => {
                                 <div className="row">
                                     <div /*className="col-8 col-sm-12 col-xl-8 my-auto"*/>
                                         <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                            <h3 className="mb-0">2 039 € / 6000 €</h3>
+                                            <h3 className="mb-0">2 039 € / {budgetData ? `${budgetData.savingCategory.toLocaleString()} €` : '6000 €'}</h3>
                                         </div>
                                     </div>
                                 </div>
