@@ -14,7 +14,6 @@ const ExpensesProvider = ({ children }) => {
             const response = await ExpensesApi.add(data);
             if (response.status === 201) {
                 setUserExpenses((prevExpenses) => [...prevExpenses, response.data]);
-                console.log(userExpenses)
                 toast.success(`Votre dépense a bien été enregistré`);
             }
             console.log(response.data);
@@ -72,7 +71,7 @@ const ExpensesProvider = ({ children }) => {
     };
 
     return (
-        <ExpensesContext.Provider value={{ addExpenses, getUserExpenses, userExpenses, deleteExpenses, editExpenses }}>
+        <ExpensesContext.Provider value={{ addExpenses, getUserExpenses, userExpenses, deleteExpenses, editExpenses, setUserExpenses }}>
             <ToastContainer />
             {children}
         </ExpensesContext.Provider>

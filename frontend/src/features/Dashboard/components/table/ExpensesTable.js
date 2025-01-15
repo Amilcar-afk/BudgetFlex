@@ -13,14 +13,8 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
     const [openCreateModal, setOpenCreateModal] = useState(false);
     const [selectedExpense, setSelectedExpense] = useState(null);
-    const [expenses, setExpenses] = useState([]);
-    const {deleteExpenses} = useContext(ExpensesContext);
+    const {deleteExpenses, userExpenses, SetUserExpenses} = useContext(ExpensesContext);
 
-    useEffect(() => {
-        if (initialExpenses) {
-            setExpenses(initialExpenses);
-        }
-    }, [initialExpenses]);
 
 
     /* EVENTS FOR DELETE EXPENSES*/
@@ -37,9 +31,9 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
     const handleConfirmDelete = async () => {
         const expenseId = selectedExpense.id;
         const response = await deleteExpenses(expenseId);
-        if (response.status === 204) {
-            setExpenses(expenses.filter(expense => expense.id !== expenseId));
-        }
+        /*if (response.status === 204) {
+            SetUserExpenses(userExpenses.filter(expense => expense.id !== expenseId));
+        }*/
         setOpenDeleteModal(false);
     };
     /***********************/
@@ -70,7 +64,7 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
     };
 
     const handleCreateExpense = (newExpense) => {
-        setExpenses([...expenses, newExpense]);
+        SetUserExpenses([...userExpenses, newExpense]);
         setOpenCreateModal(false);
     };
 
@@ -106,13 +100,13 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
                         </tr>
                         </thead>
                         <tbody>
-                        {expenses && expenses.length > 0 ? (
-                            expenses.map((expense) => (
+                        {userExpenses && userExpenses.length > 0 ? (
+                            userExpenses.map((expense) => (
                                 <tr key={expense.id}>
                                     <td>
                                         <div className="form-check form-check-muted m-0">
                                             <label className="form-check-label">
-                                                <input type="checkbox" className="form-check-input" />
+                                                <input type="checkbox" className="form-check-input"/>
                                             </label>
                                         </div>
                                     </td>
@@ -121,15 +115,17 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
                                     <td>{expense.price} €</td>
                                     <td>{expense.subCategory}</td>
                                     <td>
-                                        {expense.category === 'needs' && <NeedsIcon />}
-                                        {expense.category === 'wants' && <WantsIcon />}
-                                        {expense.category === 'savings' && <SavingIcon />}
+                                        {expense.category === 'needs' && <NeedsIcon/>}
+                                        {expense.category === 'wants' && <WantsIcon/>}
+                                        {expense.category === 'savings' && <SavingIcon/>}
                                     </td>
                                     <td>
-                                        <button className="btn" title="Modifier" onClick={() => handleUpdateClick(expense)}>
+                                        <button className="btn" title="Modifier"
+                                                onClick={() => handleUpdateClick(expense)}>
                                             <i className="fas fa-pencil-alt"></i>
                                         </button>
-                                        <button className="btn" title="Supprimer" onClick={() => handleDeleteClick(expense)}>
+                                        <button className="btn" title="Supprimer"
+                                                onClick={() => handleDeleteClick(expense)}>
                                             <i className="fas fa-trash"></i>
                                         </button>
                                     </td>
