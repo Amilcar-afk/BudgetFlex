@@ -1,17 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { BudgetMonthContext } from "../../../../contexts/BudgetMonthContext";
 
-export function ModalEditSaving({ open, onClose, budgetMonthId }) {
+export function ModalEditWants({ open, onClose, budgetMonthId }) {
     const { activeBudgetMonth, editBudgetMonth } = useContext(BudgetMonthContext);
-    const [newAmount, setNewAmount] = useState(activeBudgetMonth?.savings || 0); // Assuming savings is a field in activeBudgetMonth
+    const [newAmount, setNewAmount] = useState(activeBudgetMonth?.wants || 0);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const updatedData = { savings: parseFloat(newAmount) }; // Adjust the field name as per your data model
+            const updatedData = { wants: parseFloat(newAmount) };
             await editBudgetMonth(budgetMonthId, updatedData);
-            onClose(); // Close the modal after successful update
+            onClose();
         } catch (error) {
             console.error("Error updating budget month:", error);
         }
@@ -57,15 +57,15 @@ export function ModalEditSaving({ open, onClose, budgetMonthId }) {
                     <form className="p-4 md:p-5" onSubmit={handleSubmit}>
                         <div className="col-span-2 sm:col-span-1">
                             <label
-                                htmlFor="savings"
+                                htmlFor="wants"
                                 className="block mb-2 text-sm font-medium text-white"
                             >
                                 Montant
                             </label>
                             <input
                                 type="number"
-                                name="savings"
-                                id="savings"
+                                name="wants"
+                                id="wants"
                                 className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white"
                                 value={newAmount}
                                 onChange={handleChange}
