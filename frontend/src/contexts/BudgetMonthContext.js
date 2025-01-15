@@ -25,6 +25,9 @@ const BudgetMonthProvider = ({ children }) => {
         try{
             const response =  BudgetMonthApi.edit(id, data);
             if(response.status === 204){
+                setActiveBudgetMonth((prevActiveBudgetMonth) =>
+                    prevActiveBudgetMonth.map(budgetMonth => budgetMonth.id === id ? { ...budgetMonth, ...data } : budgetMonth)
+                );
                 toast.success(`Votre budgetMonth a bien été modifié`);
             }
         }catch(error){
@@ -57,7 +60,7 @@ const BudgetMonthProvider = ({ children }) => {
     }*/
 
     return (
-        <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth, activeBudgetMonth, currentBalance, setCurrentBalance }}>
+        <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth, activeBudgetMonth, currentBalance, setCurrentBalance, editBudgetMonth }}>
             <ToastContainer />
             {children}
         </BudgetMonthContext.Provider>

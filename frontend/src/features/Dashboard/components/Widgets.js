@@ -113,14 +113,26 @@ const Widgets = ({ budgetData }) => {
 
             <div className="row">
                 <div className="col-sm-4 grid-margin">
-                    <div className="card">
+                    <div className="card" style={{position: "relative"}}>
                         <div className="card-body">
+                            <i
+                                className="fas fa-pencil-alt"
+                                style={{
+                                    position: "absolute",
+                                    top: "10px",
+                                    right: "10px",
+                                    cursor: "pointer",
+                                }}
+                            ></i>
                             <h5 style={{fontSize: "larger"}}>Besoins</h5>
                             <div className="card-container">
                                 <div className="row">
-                                    <div /*className="col-8 col-sm-12 col-xl-8 my-auto"*/>
+                                    <div>
                                         <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                            <h3 className="mb-0">1 009 € / {budgetData ? `${budgetData.needsCategory.toLocaleString()} €` : '8600 €'}</h3>
+                                            <h3 className="mb-0">
+                                                1 009 €
+                                                / {budgetData ? `${budgetData.needsCategory.toLocaleString()} €` : '8600 €'}
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
@@ -134,12 +146,22 @@ const Widgets = ({ budgetData }) => {
                 <div className="col-sm-4 grid-margin">
                     <div className="card">
                         <div className="card-body">
+                            <i
+                                className="fas fa-pencil-alt"
+                                style={{
+                                    position: "absolute",
+                                    top: "10px",
+                                    right: "10px",
+                                    cursor: "pointer",
+                                }}
+                            ></i>
                             <h5 style={{fontSize: "larger"}}>Plaisirs</h5>
                             <div className="card-container">
                                 <div className="row">
                                     <div /*className="col-8 col-sm-12 col-xl-8 my-auto"*/>
                                         <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                            <h3 className="mb-0">8 039 € / {budgetData ? `${budgetData.wantsCategory.toLocaleString()} €` : '4000 €'}</h3>
+                                            <h3 className="mb-0">8 039 €
+                                                / {budgetData ? `${budgetData.wantsCategory.toLocaleString()} €` : '4000 €'}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -152,13 +174,23 @@ const Widgets = ({ budgetData }) => {
                 </div>
                 <div className="col-sm-4 grid-margin">
                     <div className="card">
+                        <i
+                            className="fas fa-pencil-alt"
+                            style={{
+                                position: "absolute",
+                                top: "10px",
+                                right: "10px",
+                                cursor: "pointer",
+                            }}
+                        ></i>
                         <div className="card-body">
                             <h5 style={{fontSize: "larger"}}>Economies</h5>
                             <div className="card-container">
                                 <div className="row">
                                     <div /*className="col-8 col-sm-12 col-xl-8 my-auto"*/>
                                         <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                            <h3 className="mb-0">2 039 € / {budgetData ? `${budgetData.savingCategory.toLocaleString()} €` : '6000 €'}</h3>
+                                            <h3 className="mb-0">2 039 €
+                                                / {budgetData ? `${budgetData.savingCategory.toLocaleString()} €` : '6000 €'}</h3>
                                         </div>
                                     </div>
                                 </div>
