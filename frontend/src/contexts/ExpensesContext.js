@@ -16,7 +16,6 @@ const ExpensesProvider = ({ children }) => {
                 setUserExpenses((prevExpenses) => [...prevExpenses, response.data]);
                 toast.success(`Votre dépense a bien été enregistré`);
             }
-            console.log(response.data);
             return response;
         } catch (error) {
             console.error(error);

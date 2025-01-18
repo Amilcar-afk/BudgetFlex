@@ -63,8 +63,6 @@ export function ModalUpdateExpenses({ open, onClose, expense }) {
             ...prevState,
             [name]: value,
         }));
-
-        console.log(updatedExpense);
     };
 
     const handleDateChange = (date) => {

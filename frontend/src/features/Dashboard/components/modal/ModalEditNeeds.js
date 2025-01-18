@@ -1,15 +1,21 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { BudgetMonthContext } from "../../../../contexts/BudgetMonthContext";
 
 export function ModalEditNeeds({ open, onClose, budgetMonthId }) {
     const { activeBudgetMonth, editBudgetMonth } = useContext(BudgetMonthContext);
     const [newAmount, setNewAmount] = useState(activeBudgetMonth?.needs || 0); // Assuming needs is a field in activeBudgetMonth
 
+    useEffect(() => {
+        if (activeBudgetMonth && budgetMonthId === activeBudgetMonth.id) {
+            setNewAmount(activeBudgetMonth.needs || 0);
+        }
+    }, [activeBudgetMonth, budgetMonthId]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const updatedData = { needs: parseFloat(newAmount) }; // Adjust the field name as per your data model
+            const updatedData = { "needsCategory": parseFloat(newAmount) }; // Adjust the field name as per your data model
             await editBudgetMonth(budgetMonthId, updatedData);
             onClose(); // Close the modal after successful update
         } catch (error) {

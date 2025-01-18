@@ -22,7 +22,6 @@ const Widgets = ({ budgetData }) => {
 
     useEffect(() => {
         if (budgetData && budgetData.id) {
-            console.log(budgetData);
             getUserExpenses(budgetData.id);
         }
     }, []);
@@ -116,13 +115,13 @@ const Widgets = ({ budgetData }) => {
 
             <div className="row">
                 <div className="col-sm-4 grid-margin">
-                    <NeedsCard/>
+                    <NeedsCard budgetData={budgetData}/>
                 </div>
                 <div className="col-sm-4 grid-margin">
-                    <WantsCard/>
+                    <WantsCard budgetData={budgetData}/>
                 </div>
                 <div className="col-sm-4 grid-margin">
-                    <SavingCard/>
+                    <SavingCard budgetData={budgetData}/>
                 </div>
             </div>
             <div className="row">

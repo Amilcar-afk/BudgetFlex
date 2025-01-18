@@ -23,12 +23,12 @@ const BudgetMonthProvider = ({ children }) => {
 
     const editBudgetMonth = async (id, data) => {
         try{
-            const response =  BudgetMonthApi.edit(id, data);
-            if(response.status === 204){
-                setActiveBudgetMonth((prevActiveBudgetMonth) =>
-                    prevActiveBudgetMonth.map(budgetMonth => budgetMonth.id === id ? { ...budgetMonth, ...data } : budgetMonth)
-                );
-                toast.success(`Votre budgetMonth a bien été modifié`);
+            const response =  await BudgetMonthApi.edit(id, data);
+            if (response.status === 200) {
+                setActiveBudgetMonth(response.data);
+                toast.success("Votre budgetMonth a bien été modifié");
+            } else {
+                toast.error("Erreur inattendue lors de la mise à jour du budgetMonth");
             }
         }catch(error){
             console.error(error);

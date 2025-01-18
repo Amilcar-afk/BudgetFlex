@@ -22,7 +22,6 @@ const AuthProvider = ({ children }) => {
             if (response && response.data.token) {
                 localStorage.setItem('jwtToken', response.data.token);
                 setCurrentUser(response.data.user);
-                console.log(response);
                 return response.status;
             }
         } catch (error) {

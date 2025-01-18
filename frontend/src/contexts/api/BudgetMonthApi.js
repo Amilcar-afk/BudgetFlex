@@ -4,7 +4,7 @@ const route = '/budget/month';
 
 const BudgetMonthApi = {
     add: async function (data) {
-        return sendRequest(route +'/new', 'POST', {data}, true);
+        return sendRequest(route +'/new', 'POST', data, true);
     },
 
     get: async function (id) {
@@ -12,7 +12,7 @@ const BudgetMonthApi = {
     },
 
     edit: async function (id, data) {
-        return sendRequest(route +`/${id}/edit`, 'PUT', {data}, true);
+        return sendRequest(route +`/${id}/edit`, 'PUT', data, true);
     },
 
     getUserList: async function (userId) {

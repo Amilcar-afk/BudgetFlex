@@ -1,17 +1,24 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { BudgetMonthContext } from "../../../../contexts/BudgetMonthContext";
 
 export function ModalEditWants({ open, onClose, budgetMonthId }) {
     const { activeBudgetMonth, editBudgetMonth } = useContext(BudgetMonthContext);
     const [newAmount, setNewAmount] = useState(activeBudgetMonth?.wants || 0);
 
+    useEffect(() => {
+        if (activeBudgetMonth && budgetMonthId === activeBudgetMonth.id) {
+            setNewAmount(activeBudgetMonth.wants || 0);
+        }
+    }, [activeBudgetMonth, budgetMonthId]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const updatedData = { wants: parseFloat(newAmount) };
+            // Met à jour les données via la fonction editBudgetMonth
+            const updatedData = { "wantsCategory": parseFloat(newAmount) };
             await editBudgetMonth(budgetMonthId, updatedData);
-            onClose();
+            onClose();  // Ferme le modal après la mise à jour
         } catch (error) {
             console.error("Error updating budget month:", error);
         }

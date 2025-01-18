@@ -55,6 +55,7 @@ export default function SavingCard({ budgetData }) {
             </div>
             {openEditModal && (
                 <ModalEditSaving
+                    budgetMonthId={budgetData.id}
                     open={openEditModal}
                     onClose={handleCloseEditModal}
                 />

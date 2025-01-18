@@ -4,8 +4,6 @@ const route = '/expenses';
 
 const ExpensesApi = {
     add: async function (data) {
-        console.log("apii")
-        console.log(data)
         return sendRequest(route +'/new', 'POST', data, true);
     },
 
