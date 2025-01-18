@@ -13,7 +13,7 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
     const [openCreateModal, setOpenCreateModal] = useState(false);
     const [selectedExpense, setSelectedExpense] = useState(null);
-    const {deleteExpenses, userExpenses, SetUserExpenses} = useContext(ExpensesContext);
+    const {deleteExpenses, userExpenses, setUserExpenses} = useContext(ExpensesContext);
 
 
 
@@ -61,7 +61,7 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
     };
 
     const handleCreateExpense = (newExpense) => {
-        SetUserExpenses([...userExpenses, newExpense]);
+        setUserExpenses([...userExpenses, newExpense]);
         setOpenCreateModal(false);
     };
 
@@ -110,7 +110,7 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
                                     <td>{new Date(expense.date).toLocaleDateString()}</td>
                                     <td>{expense.name}</td>
                                     <td>{expense.price} €</td>
-                                    <td>{expense.subCategory}</td>
+                                    <td>{"expense.subCategory"}</td>
                                     <td>
                                         {expense.category === 'needs' && <NeedsIcon/>}
                                         {expense.category === 'wants' && <WantsIcon/>}
