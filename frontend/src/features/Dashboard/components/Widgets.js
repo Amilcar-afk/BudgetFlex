@@ -125,7 +125,7 @@ const Widgets = ({ budgetData }) => {
                 </div>
             </div>
             <div className="row">
-                <CategoryDetails/>
+                <CategoryDetails budgetData={budgetData}/>
             </div>
             <div className="row">
                 <div className="col-md-6 col-xl-4 stretch-card">

@@ -123,9 +123,7 @@ class BudgetMonthController extends AbstractController
 
         $entityManager->flush();
 
-        $responseData = $serializer->serialize($budgetMonth, 'json', ['groups' => 'budget_list']);
-
-        return new JsonResponse($responseData, Response::HTTP_OK, [], true);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
     #[Route('/user/{userId}', name: 'app_budget_month_user', methods: ['GET'])]

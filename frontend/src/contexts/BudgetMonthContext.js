@@ -13,26 +13,35 @@ const BudgetMonthProvider = ({ children }) => {
         try{
             const response = await BudgetMonthApi.add(data);
             if (response.status === 200) {
-                toast.success(`Votre budgetMonth a bien été enregistré`);
+                toast.success(`Votre budgetMonth a bien été enregistré`, {
+                    theme: 'dark',
+                });
             }
         } catch (error) {
             console.error(error);
-            toast.error(`Votre budgetMonth n'a pas été enregistré`);
+            toast.error(`Votre budgetMonth n'a pas été enregistré`, {
+                theme: 'dark',
+            });
         }
     }
 
     const editBudgetMonth = async (id, data) => {
         try{
             const response =  await BudgetMonthApi.edit(id, data);
-            if (response.status === 200) {
-                setActiveBudgetMonth(response.data);
-                toast.success("Votre budgetMonth a bien été modifié");
-            } else {
-                toast.error("Erreur inattendue lors de la mise à jour du budgetMonth");
+            if (response.status === 204) {
+                setActiveBudgetMonth((prevState) => ({
+                    ...prevState,
+                    ...data,
+                }));
+                toast.success("Modification pris en compte", {
+                    theme: 'dark',
+                });
             }
         }catch(error){
             console.error(error);
-            toast.error(`Votre budgetMonth n'a pas été modifié`);
+            toast.error(`Erreur lors de la modification`, {
+                theme: 'dark',
+            });
         }
     }
 
@@ -43,7 +52,9 @@ const BudgetMonthProvider = ({ children }) => {
                 setActiveBudgetMonth(response.data);
             } else {
                 setActiveBudgetMonth('empty');
-                toast.error(`Aucun budgetMonth actif trouvé`);
+                toast.error(`Aucun budgetMonth actif trouvé`, {
+                    theme: 'dark',
+                });
             }
         } catch (error) {
             console.error('Error fetching active budget month:', error);
@@ -60,7 +71,7 @@ const BudgetMonthProvider = ({ children }) => {
     }*/
 
     return (
-        <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth, activeBudgetMonth, currentBalance, setCurrentBalance, editBudgetMonth }}>
+        <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth, activeBudgetMonth, currentBalance, setCurrentBalance, editBudgetMonth, setActiveBudgetMonth }}>
             <ToastContainer />
             {children}
         </BudgetMonthContext.Provider>

@@ -3,7 +3,16 @@ import PieChartDetailsActual from "./PieChartDetailsActual";
 import PieChartDetailsStart from "./PieChartDetailsStart";
 import BarChartDetails from "./BarChartDetails";
 import Stack from '@mui/material/Stack';
-export default function CategoryDetails() {
+export default function CategoryDetails({ budgetData }) {
+
+    if (!budgetData) {
+        return (
+            <div className="no-budget-data">
+                <h4>Aucune donnée de budget disponible</h4>
+            </div>
+        );
+    }
+
     return (
         <div className="col-12 grid-margin">
             <div className="card">
@@ -11,7 +20,7 @@ export default function CategoryDetails() {
                     <h4 className="card-title">Détails</h4>
                     <div className="row charts-container">
                         <div className="col-sm-4 grid-margin">
-                            <PieChartDetailsStart />
+                            <PieChartDetailsStart budgetData={budgetData}/>
                         </div>
                         <div className="col-sm-4 grid-margin">
                             <BarChartDetails />

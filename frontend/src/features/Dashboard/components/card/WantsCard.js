@@ -52,7 +52,7 @@ export default function WantsCard({ budgetData }) {
             </div>
             {openEditModal && (
                 <ModalEditWants
-                    budgetMonthId={budgetData.id}
+                    budgetMonth={budgetData}
                     open={openEditModal}
                     onClose={handleCloseEditModal}
                 />

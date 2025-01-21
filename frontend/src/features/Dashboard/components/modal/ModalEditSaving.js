@@ -1,23 +1,27 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { BudgetMonthContext } from "../../../../contexts/BudgetMonthContext";
 
-export function ModalEditSaving({ open, onClose, budgetMonthId }) {
-    const { activeBudgetMonth, editBudgetMonth } = useContext(BudgetMonthContext);
-    const [newAmount, setNewAmount] = useState(activeBudgetMonth?.saving || 0); // Assuming savings is a field in activeBudgetMonth
+export function ModalEditSaving({ open, onClose, budgetMonth }) {
+    const { editBudgetMonth } = useContext(BudgetMonthContext);
+    const [newAmount, setNewAmount] = useState(budgetMonth?.savingCategory || 0);
 
     useEffect(() => {
-        if (activeBudgetMonth && budgetMonthId === activeBudgetMonth.id) {
-            setNewAmount(activeBudgetMonth.saving || 0);
+        if (budgetMonth) {
+            setNewAmount(budgetMonth.savingCategory || 0);
         }
-    }, [activeBudgetMonth, budgetMonthId]);
+    }, [budgetMonth]);
+
+    if (!open || !budgetMonth) {
+        return null;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const updatedData = { "savingCategory": parseFloat(newAmount) }; // Adjust the field name as per your data model
-            await editBudgetMonth(budgetMonthId, updatedData);
-            onClose(); // Close the modal after successful update
+            const updatedData = { "savingCategory": parseFloat(newAmount) };
+            await editBudgetMonth(budgetMonth.id, updatedData);
+            onClose();
         } catch (error) {
             console.error("Error updating budget month:", error);
         }
