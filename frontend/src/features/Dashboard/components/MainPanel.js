@@ -10,7 +10,8 @@ const MainPanel = () => {
     const {currentUser, setCurrentUser} = useContext(AuthContext);
 
     useEffect(() => {
-        getActiveBudgetMonth(1);
+        if(!currentUser)
+            getActiveBudgetMonth(1);
     }, [currentUser]);
 
     return (

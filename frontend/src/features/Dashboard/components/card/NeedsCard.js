@@ -41,7 +41,7 @@ export default function NeedsCard({ budgetData }) {
                         <div /*className="col-8 col-sm-12 col-xl-8 my-auto"*/>
                             <div className="d-flex d-sm-block d-md-flex align-items-center">
                                 <h3 className="mb-0">8 039 €
-                                    / {budgetData ? `${budgetData.needsCategory.toLocaleString()} €` : '4000 €'}</h3>
+                                    / {budgetData.needsCategory ? `${budgetData.needsCategory.toLocaleString()} €` : '4000 €'}</h3>
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@ export default function NeedsCard({ budgetData }) {
             </div>
             {openEditModal && (
                 <ModalEditNeeds
-                    budgetMonth={budgetData}
+                    budgetMonth={budgetData || {}}
                     open={openEditModal}
                     onClose={handleCloseEditModal}
                 />

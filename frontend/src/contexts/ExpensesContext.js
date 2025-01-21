@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState} from 'react';
 import ExpensesApi from './api/ExpensesApi';
-import {toast, ToastContainer} from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const ExpensesContext = createContext(null);
@@ -31,9 +31,10 @@ const ExpensesProvider = ({ children }) => {
         try{
             const response =  await ExpensesApi.edit(id, data);
             if(response.status === 204){
-                setUserExpenses((prevExpenses) =>
+                const updatedExpenses = setUserExpenses((prevExpenses) =>
                     prevExpenses.map(expense => expense.id === id ? { ...expense, ...data } : expense)
                 );
+                console.log(updatedExpenses);
                 toast.success(`Votre dépense a bien été modifié`, {
                     theme: 'dark',
                 });
@@ -85,7 +86,6 @@ const ExpensesProvider = ({ children }) => {
 
     return (
         <ExpensesContext.Provider value={{ addExpenses, getUserExpenses, userExpenses, deleteExpenses, editExpenses, setUserExpenses }}>
-            <ToastContainer />
             {children}
         </ExpensesContext.Provider>
     )

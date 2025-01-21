@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react';
 import BudgetMonthApi from './api/BudgetMonthApi';
-import {toast, ToastContainer} from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const BudgetMonthContext = createContext(null);
@@ -29,12 +29,16 @@ const BudgetMonthProvider = ({ children }) => {
         try{
             const response =  await BudgetMonthApi.edit(id, data);
             if (response.status === 204) {
-                setActiveBudgetMonth((prevState) => ({
-                    ...prevState,
-                    ...data,
-                }));
-                toast.success("Modification pris en compte", {
-                    theme: 'dark',
+                setActiveBudgetMonth((prevState) => {
+                    const updatedState = {
+                        ...prevState,
+                        ...data,
+                    };
+                    console.log("Updated activeBudgetMonth:", updatedState); // État mis à jour
+                    toast.success("Modification pris en compte", {
+                        theme: 'dark',
+                    });
+                    return updatedState;
                 });
             }
         }catch(error){
@@ -72,7 +76,6 @@ const BudgetMonthProvider = ({ children }) => {
 
     return (
         <BudgetMonthContext.Provider value={{ addBudgetMonth, getActiveBudgetMonth, activeBudgetMonth, currentBalance, setCurrentBalance, editBudgetMonth, setActiveBudgetMonth }}>
-            <ToastContainer />
             {children}
         </BudgetMonthContext.Provider>
     )

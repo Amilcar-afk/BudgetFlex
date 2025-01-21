@@ -12,6 +12,7 @@ import BudgetMonthProvider from "./contexts/BudgetMonthContext";
 import LogoutPage from "./features/Auth/LogoutPage";
 import ExpensesProvider from "./contexts/ExpensesContext";
 import AuthProvider from "./contexts/AuthContext";
+import {ToastContainer} from "react-toastify";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                                 <Route path="/login" element={<LoginPage/>} />
                                 <Route path="/logout" element={<LogoutPage/>} />
                             </Routes>
+                            <ToastContainer/>
                         </ExpensesProvider>
                     </BudgetMonthProvider>
                 </UserProvider>

@@ -2,18 +2,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import { BudgetMonthContext } from "../../../../contexts/BudgetMonthContext";
 
 export function ModalEditSaving({ open, onClose, budgetMonth }) {
-    const { editBudgetMonth } = useContext(BudgetMonthContext);
+    const { editBudgetMonth, activeBudgetMonth } = useContext(BudgetMonthContext);
     const [newAmount, setNewAmount] = useState(budgetMonth?.savingCategory || 0);
 
-    useEffect(() => {
-        if (budgetMonth) {
-            setNewAmount(budgetMonth.savingCategory || 0);
-        }
-    }, [budgetMonth]);
-
-    if (!open || !budgetMonth) {
-        return null;
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();

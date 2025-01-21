@@ -43,7 +43,7 @@ export default function SavingCard({ budgetData }) {
                         <div>
                             <div className="d-flex d-sm-block d-md-flex align-items-center">
                                 <h3 className="mb-0">
-                                    2 039 € / {budgetData ? `${budgetData.savingCategory.toLocaleString()} €` : '6000 €'}
+                                    2 039 € / {budgetData.savingCategory ? `${budgetData.savingCategory.toLocaleString()} €` : '6000 €'}
                                 </h3>
                             </div>
                         </div>
@@ -55,7 +55,7 @@ export default function SavingCard({ budgetData }) {
             </div>
             {openEditModal && (
                 <ModalEditSaving
-                    budgetMonth={budgetData}
+                    budgetMonth={budgetData || {}}
                     open={openEditModal}
                     onClose={handleCloseEditModal}
                 />
