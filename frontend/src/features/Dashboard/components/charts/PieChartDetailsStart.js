@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
+import { PieChart } from '@mui/x-charts/PieChart';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 

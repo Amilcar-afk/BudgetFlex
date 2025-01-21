@@ -5,12 +5,6 @@ export function ModalEditNeeds({ open, onClose, budgetMonth }) {
     const [newAmount, setNewAmount] = useState(budgetMonth?.needsCategory || 0);
     const { editBudgetMonth } = useContext(BudgetMonthContext);
 
-    useEffect(() => {
-        if (budgetMonth) {
-            setNewAmount(budgetMonth.needsCategory || 0);
-        }
-    }, [budgetMonth]);
-
     if (!open || !budgetMonth) {
         return null;
     }
