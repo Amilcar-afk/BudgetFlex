@@ -34,7 +34,6 @@ const ExpensesProvider = ({ children }) => {
                 const updatedExpenses = setUserExpenses((prevExpenses) =>
                     prevExpenses.map(expense => expense.id === id ? { ...expense, ...data } : expense)
                 );
-                console.log(updatedExpenses);
                 toast.success(`Votre dépense a bien été modifié`, {
                     theme: 'dark',
                 });
