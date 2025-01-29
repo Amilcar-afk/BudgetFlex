@@ -23,7 +23,7 @@ export default function CategoryDetails({ budgetData }) {
                             <PieChartDetailsStart budgetData={budgetData}/>
                         </div>
                         <div className="col-sm-4 grid-margin">
-                            <BarChartDetails />
+                            <BarChartDetails budgetData={budgetData}/>
                         </div>
                         <div className="col-sm-4 grid-margin">
                             <PieChartDetailsActual />
