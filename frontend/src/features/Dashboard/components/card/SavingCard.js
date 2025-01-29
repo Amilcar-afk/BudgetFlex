@@ -1,10 +1,33 @@
-import React, { useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import SavingIcon from "../category/SavingIcon";
 import { ModalEditSaving } from "../modal/ModalEditSaving";
+import {ExpensesContext} from "../../../../contexts/ExpensesContext";
 
 export default function SavingCard({ budgetData }) {
     const [openEditModal, setOpenEditModal] = useState(false);
+    const { userExpenses } = useContext(ExpensesContext);
+
+    const [categoryCounts, setCategoryCounts] = useState({
+        saving: 0
+    });
+
+    useEffect(() => {
+        if (!userExpenses || !Array.isArray(userExpenses)) {
+            console.warn("userExpenses is not available or not an array.");
+            return;
+        }
+
+        const counts = userExpenses.reduce(
+            (acc, expense) => {
+                if (expense.category === 'savings') acc.saving += expense.price;
+                return acc;
+            },
+            { saving: 0 }
+        );
+
+        setCategoryCounts(counts);
+    }, [userExpenses, budgetData]);
 
     /* EVENTS FOR UPDATE SAVINGS */
     const handleEditClick = () => {
@@ -43,7 +66,7 @@ export default function SavingCard({ budgetData }) {
                         <div>
                             <div className="d-flex d-sm-block d-md-flex align-items-center">
                                 <h3 className="mb-0">
-                                    2 039 € / {budgetData.savingCategory ? `${budgetData.savingCategory.toLocaleString()} €` : '6000 €'}
+                                    {categoryCounts.saving} / {budgetData.savingCategory ? `${budgetData.savingCategory.toLocaleString()} €` : '6000 €'}
                                 </h3>
                             </div>
                         </div>
