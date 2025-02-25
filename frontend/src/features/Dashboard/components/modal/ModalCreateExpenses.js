@@ -20,6 +20,7 @@ export function ModalCreateExpense({ open, onClose, onCreate, budgetMonthId }) {
         name: '',
         price: 0.0,
         category: 'needs',
+        subCategory: 'various',
         date: new Date(),
         budgetMonth: budgetMonthId,
     });
@@ -79,20 +80,41 @@ export function ModalCreateExpense({ open, onClose, onCreate, budgetMonthId }) {
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-white">Nom</label>
-                                <input type="text" name="name" id="name" className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white" value={newExpenses.name} onChange={handleChange} required />
+                                <input type="text" name="name" id="name"
+                                       className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white"
+                                       value={newExpenses.name} onChange={handleChange} required/>
                             </div>
                             <div className="col-span-2 sm:col-span-1">
-                                <label htmlFor="price" className="block mb-2 text-sm font-medium text-white">Prix</label>
-                                <input type="number" name="price" id="price" className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white" value={newExpenses.price} onChange={handleChange} required />
+                                <label htmlFor="price"
+                                       className="block mb-2 text-sm font-medium text-white">Prix</label>
+                                <input type="number" name="price" id="price"
+                                       className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white"
+                                       value={newExpenses.price} onChange={handleChange} required/>
                             </div>
                             <div className="col-span-2 sm:col-span-1">
-                                <label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Catégorie</label>
+                                <label htmlFor="category"
+                                       className="block mb-2 text-sm font-medium text-white">Catégorie</label>
                                 <select name="category" id="category"
                                         className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white"
                                         value={newExpenses.category} onChange={handleChange}>
                                     <option value="needs">Besoins</option>
                                     <option value="wants">Plaisirs</option>
                                     <option value="savings">Économies</option>
+                                </select>
+                            </div>
+                            <div className="col-span-2">
+                                <label htmlFor="subCategory"
+                                       className="block mb-2 text-sm font-medium text-white">Catégorie</label>
+                                <select name="subCategory" id="subCategory"
+                                        className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white"
+                                        value={newExpenses.subCategory} onChange={handleChange}>
+                                    <option value="hobbies">Loisirs</option>
+                                    <option value="insurance">Assurance</option>
+                                    <option value="health">Santé</option>
+                                    <option value="feed">Alimentation</option>
+                                    <option value="thrift">Epargne</option>
+                                    <option value="transportation">Transport</option>
+                                    <option value="various">Divers</option>
                                 </select>
                             </div>
                             <div className="col-span-2">

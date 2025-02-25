@@ -2,9 +2,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import PieChartForSubCategory from "./charts/PieChartForSubCategory";
 import BarChartBankBalance from "./charts/BarChartBankBalance";
 import ExpensesTable from "../components/table/ExpensesTable";
-import SavingIcon from "./category/SavingIcon";
-import WantsIcon from "./category/WantsIcon";
-import NeedsIcon from "./category/NeedsIcon";
 import CategoryDetails from "./charts/CategoryDetails";
 import { ExpensesContext } from "../../../contexts/ExpensesContext";
 import SavingCard from "./card/SavingCard";
@@ -89,7 +86,7 @@ const Widgets = ({ budgetData }) => {
                             <div
                                 className="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                                 <div className="text-md-center text-xl-left">
-                                    <h6 className="mb-1">{currentBalance ? `${currentBalance.toLocaleString()} €` : '0 €'}</h6>
+                                    <h6 className="mb-1">Solde de Départ</h6>
                                 </div>
                                 <div
                                     className="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
@@ -109,7 +106,7 @@ const Widgets = ({ budgetData }) => {
                     </div>
                 </div>
                 <div className="col-md-9 grid-margin stretch-card">
-                    <ExpensesTable budgetMonthId={budgetData.id} initialExpenses={userExpenses}/>
+                    <ExpensesTable budgetMonthId={budgetData.id}/>
                 </div>
             </div>
 
@@ -133,41 +130,115 @@ const Widgets = ({ budgetData }) => {
                         <div className="card-body">
                             <div className="d-flex flex-row justify-content-between">
                                 <h4 className="card-title mb-1">Sous-Catégories</h4>
-                                <p className="text-muted mb-1">Description</p>
                             </div>
                             <div className="row">
                                 <div className="col-12">
                                     <div className="preview-list">
                                         <div className="preview-item border-bottom">
                                             <div className="preview-thumbnail">
-                                                <div className="preview-icon bg-primary">
+                                                <div className="preview-icon bg-loisirs">
                                                     <i className="mdi mdi-file-document"></i>
                                                 </div>
                                             </div>
                                             <div className="preview-item-content d-sm-flex flex-grow">
                                                 <div className="flex-grow">
-                                                    <h6 className="preview-subject">Loisirs</h6>
+                                                    <h6 className="preview-subject">Loisir</h6>
                                                 </div>
                                                 <div className="mr-auto text-sm-right pt-2 pt-sm-0">
-                                                    <p className="text-muted">escape game, restaurant, shopping</p>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className="preview-item border-bottom">
                                             <div className="preview-thumbnail">
-                                                <div className="preview-icon bg-success">
-                                                    <i className="mdi mdi-cloud-download"></i>
+                                                <div className="preview-icon bg-divers">
+                                                    <i className="mdi mdi-file-document"></i>
                                                 </div>
                                             </div>
                                             <div className="preview-item-content d-sm-flex flex-grow">
                                                 <div className="flex-grow">
-                                                    <h6 className="preview-subject">Courses</h6>
+                                                    <h6 className="preview-subject">Divers</h6>
                                                 </div>
                                                 <div className="mr-auto text-sm-right pt-2 pt-sm-0">
-                                                    <p className="text-muted">Nourritures</p>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div className="preview-item border-bottom">
+                                            <div className="preview-thumbnail">
+                                                <div className="preview-icon bg-sante">
+                                                    <i className="mdi mdi-file-document"></i>
+                                                </div>
+                                            </div>
+                                            <div className="preview-item-content d-sm-flex flex-grow">
+                                                <div className="flex-grow">
+                                                    <h6 className="preview-subject">Santé</h6>
+                                                </div>
+                                                <div className="mr-auto text-sm-right pt-2 pt-sm-0">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="preview-item border-bottom">
+                                            <div className="preview-thumbnail">
+                                                <div className="preview-icon bg-secondary">
+                                                    <i className="mdi mdi-file-document"></i>
+                                                </div>
+                                            </div>
+                                            <div className="preview-item-content d-sm-flex flex-grow">
+                                                <div className="flex-grow">
+                                                    <h6 className="preview-subject">Logement</h6>
+                                                </div>
+                                                <div className="mr-auto text-sm-right pt-2 pt-sm-0">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="preview-item border-bottom">
+                                            <div className="preview-thumbnail">
+                                                <div className="preview-icon bg-assurance">
+                                                    <i className="mdi mdi-file-document"></i>
+                                                </div>
+                                            </div>
+                                            <div className="preview-item-content d-sm-flex flex-grow">
+                                                <div className="flex-grow">
+                                                    <h6 className="preview-subject">Assurances</h6>
+                                                </div>
+                                                <div className="mr-auto text-sm-right pt-2 pt-sm-0">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="preview-item border-bottom">
+                                            <div className="preview-thumbnail">
+                                                <div className="preview-icon bg-alimentation">
+                                                    <i className="mdi mdi-file-document"></i>
+                                                </div>
+                                            </div>
+                                            <div className="preview-item-content d-sm-flex flex-grow">
+                                                <div className="flex-grow">
+                                                    <h6 className="preview-subject">Alimentation</h6>
+                                                </div>
+                                                <div className="mr-auto text-sm-right pt-2 pt-sm-0">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="preview-item border-bottom">
+                                            <div className="preview-thumbnail">
+                                                <div className="preview-icon bg-transport">
+                                                    <i className="mdi mdi-file-document"></i>
+                                                </div>
+                                            </div>
+                                            <div className="preview-item-content d-sm-flex flex-grow">
+                                                <div className="flex-grow">
+                                                    <h6 className="preview-subject">Transport</h6>
+                                                </div>
+                                                <div className="mr-auto text-sm-right pt-2 pt-sm-0">
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div className="preview-item border-bottom">
                                             <div className="preview-thumbnail">
                                                 <div className="preview-icon bg-info">
@@ -176,46 +247,10 @@ const Widgets = ({ budgetData }) => {
                                             </div>
                                             <div className="preview-item-content d-sm-flex flex-grow">
                                                 <div className="flex-grow">
-                                                    <h6 className="preview-subject">Project meeting</h6>
-                                                    <p className="text-muted mb-0">New project discussion</p>
+                                                    <h6 className="preview-subject">Epargne</h6>
                                                 </div>
                                                 <div className="mr-auto text-sm-right pt-2 pt-sm-0">
-                                                    <p className="text-muted">35 minutes ago</p>
-                                                    <p className="text-muted mb-0">15 tasks, 2 issues</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="preview-item border-bottom">
-                                            <div className="preview-thumbnail">
-                                                <div className="preview-icon bg-danger">
-                                                    <i className="mdi mdi-email-open"></i>
-                                                </div>
-                                            </div>
-                                            <div className="preview-item-content d-sm-flex flex-grow">
-                                                <div className="flex-grow">
-                                                    <h6 className="preview-subject">Broadcast Mail</h6>
-                                                    <p className="text-muted mb-0">Sent release details to team</p>
-                                                </div>
-                                                <div className="mr-auto text-sm-right pt-2 pt-sm-0">
-                                                    <p className="text-muted">55 minutes ago</p>
-                                                    <p className="text-muted mb-0">35 tasks, 7 issues </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="preview-item">
-                                            <div className="preview-thumbnail">
-                                                <div className="preview-icon bg-warning">
-                                                    <i className="mdi mdi-chart-pie"></i>
-                                                </div>
-                                            </div>
-                                            <div className="preview-item-content d-sm-flex flex-grow">
-                                                <div className="flex-grow">
-                                                    <h6 className="preview-subject">UI Design</h6>
-                                                    <p className="text-muted mb-0">New application planning</p>
-                                                </div>
-                                                <div className="mr-auto text-sm-right pt-2 pt-sm-0">
-                                                    <p className="text-muted">50 minutes ago</p>
-                                                    <p className="text-muted mb-0">27 tasks, 4 issues </p>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -238,7 +273,7 @@ const Widgets = ({ budgetData }) => {
                         <div className="card-body">
                             <h4 className="card-title">To do list</h4>
                             <div className="add-items d-flex">
-                                <input type="text" className="form-control todo-list-input" placeholder="enter task.." />
+                                <input type="text" className="form-control todo-list-input" placeholder="enter task.."/>
                                 <button className="add btn btn-primary todo-list-add-btn">Add</button>
                             </div>
                             <div className="list-wrapper">

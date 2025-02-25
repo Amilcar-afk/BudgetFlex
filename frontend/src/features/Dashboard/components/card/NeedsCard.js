@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import {ModalEditNeeds} from "../modal/ModalEditNeeds";
-import NeedsIcon from "../category/NeedsIcon";
 import {ExpensesContext} from "../../../../contexts/ExpensesContext";
+import CategoryIcon from "../category/CategoryIcon";
 
 export default function NeedsCard({ budgetData }) {
     const [openEditModal, setOpenEditModal] = useState(false);
@@ -65,13 +65,13 @@ export default function NeedsCard({ budgetData }) {
                     <div className="row">
                         <div /*className="col-8 col-sm-12 col-xl-8 my-auto"*/>
                             <div className="d-flex d-sm-block d-md-flex align-items-center">
-                                <h3 className="mb-0">  {categoryCounts.needs}
-                                    / {budgetData.needsCategory ? `${budgetData.needsCategory.toLocaleString()} €` : '4000 €'}</h3>
+                                <h3 className="mb-0">
+                                    {categoryCounts.needs} / {budgetData.needsCategory ? `${budgetData.needsCategory.toLocaleString()} €` : '4000 €'}</h3>
                             </div>
                         </div>
                     </div>
                     <div className="row">
-                        <NeedsIcon/>
+                        <CategoryIcon classIcon={"bg-warning"}/>
                     </div>
                 </div>
             </div>

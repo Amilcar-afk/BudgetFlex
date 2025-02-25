@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import SavingIcon from "../category/SavingIcon";
 import { ModalEditSaving } from "../modal/ModalEditSaving";
 import {ExpensesContext} from "../../../../contexts/ExpensesContext";
+import CategoryIcon from "../category/CategoryIcon";
 
 export default function SavingCard({ budgetData }) {
     const [openEditModal, setOpenEditModal] = useState(false);
@@ -72,7 +72,7 @@ export default function SavingCard({ budgetData }) {
                         </div>
                     </div>
                     <div className="row">
-                        <SavingIcon />
+                        <CategoryIcon classIcon={"bg-success"} />
                     </div>
                 </div>
             </div>

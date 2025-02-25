@@ -1,21 +1,17 @@
 import React, {useState, useEffect, useContext} from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import NeedsIcon from "../category/NeedsIcon";
-import WantsIcon from "../category/WantsIcon";
-import SavingIcon from "../category/SavingIcon";
 import { ModalDeleteExpenses } from "../modal/ModalDeleteExpenses";
 import { ModalUpdateExpenses } from "../modal/ModalUpdateExpenses";
 import { ModalCreateExpense} from "../modal/ModalCreateExpenses";
 import {ExpensesContext} from "../../../../contexts/ExpensesContext";
+import CategoryIcon from "../category/CategoryIcon";
 
-export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
+export default function ExpensesTable({ budgetMonthId }) {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openUpdateModal, setOpenUpdateModal] = useState(false);
     const [openCreateModal, setOpenCreateModal] = useState(false);
     const [selectedExpense, setSelectedExpense] = useState(null);
     const {deleteExpenses, userExpenses, setUserExpenses} = useContext(ExpensesContext);
-
-
 
     /* EVENTS FOR DELETE EXPENSES*/
     const handleDeleteClick = (expense) => {
@@ -75,7 +71,8 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
                     <button
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
                         onClick={handleCreateClick}>
-                        <i className="fas fa-plus"></i> Ajouter
+                        <i className="fas fa-plus"></i>
+                        Ajouter
                     </button>
                 </div>
                 <div className="table-responsive">
@@ -110,11 +107,19 @@ export default function ExpensesTable({ initialExpenses, budgetMonthId }) {
                                     <td>{new Date(expense.date).toLocaleDateString()}</td>
                                     <td>{expense.name}</td>
                                     <td>{expense.price} €</td>
-                                    <td>{"expense.subCategory"}</td>
                                     <td>
-                                        {expense.category === 'needs' && <NeedsIcon/>}
-                                        {expense.category === 'wants' && <WantsIcon/>}
-                                        {expense.category === 'savings' && <SavingIcon/>}
+                                        {expense.subCategory === 'hobbies' && <CategoryIcon classIcon={"bg-loisirs"}/>}
+                                        {expense.subCategory === 'transportation' && <CategoryIcon classIcon={"bg-transport"}/>}
+                                        {expense.subCategory === 'various' && <CategoryIcon classIcon={"bg-divers"}/>}
+                                        {expense.subCategory === 'feed' && <CategoryIcon classIcon={"bg-alimentation"}/>}
+                                        {expense.subCategory === 'thrift' && <CategoryIcon classIcon={"bg-info"}/>}
+                                        {expense.subCategory === 'health' && <CategoryIcon classIcon={"bg-sante"}/>}
+                                        {expense.subCategory === 'insurance' && <CategoryIcon classIcon={"bg-assurance"}/>}
+                                    </td>
+                                    <td>
+                                        {expense.category === 'needs' && <CategoryIcon classIcon={"bg-warning"}/>}
+                                        {expense.category === 'wants' && <CategoryIcon classIcon={"bg-danger"}/>}
+                                        {expense.category === 'savings' && <CategoryIcon classIcon={"bg-success"}/>}
                                     </td>
                                     <td>
                                         <button className="btn" title="Modifier"

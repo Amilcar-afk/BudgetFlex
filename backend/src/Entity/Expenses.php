@@ -28,6 +28,10 @@ class Expenses
     #[Groups(['expenses_list', 'expenses_details'])]
     private ?string $category = null;
 
+    #[ORM\Column(length: 50)]
+    #[Groups(['expenses_list', 'expenses_details'])]
+    private ?string $subCategory = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Groups(['expenses_list', 'expenses_details'])]
     private ?\DateTimeInterface $date = null;
@@ -74,6 +78,18 @@ class Expenses
     public function setCategory(string $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSubCategory(): ?string
+    {
+        return $this->subCategory;
+    }
+
+    public function setSubCategory(string $subCategory): static
+    {
+        $this->subCategory = $subCategory;
 
         return $this;
     }

@@ -15026,8 +15026,6 @@ a.close.disabled {
 
 .bg-primary {
   background-color: #0090e7 !important;
-  margin:25px !important;
-  height:25px !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
@@ -15060,8 +15058,47 @@ button.bg-success:focus,
   background-color: #009f45 !important;
 }
 
+.bg-assurance {
+  background-color: #e77834 !important;
+  height: 25px !important;
+  width: 25px !important;
+}
+
+.bg-alimentation {
+  background-color: #e7d734 !important;
+  height: 25px !important;
+  width: 25px !important;
+}
+
+.bg-divers {
+  background-color: #8a7a7a !important;
+  height: 25px !important;
+  width: 25px !important;
+}
+
+
+.bg-loisirs {
+  background-color: #7e0000 !important;
+  height: 25px !important;
+  width: 25px !important;
+}
+
+.bg-sante {
+  background-color: #ff33af !important;
+  height: 25px !important;
+  width: 25px !important;
+}
+
+.bg-transport {
+  background-color: #ff5733 !important;
+  height: 25px !important;
+  width: 25px !important;
+}
+
 .bg-info {
   background-color: #8f5fe8 !important;
+  height: 25px !important;
+  width: 25px !important;
 }
 
 a.bg-info:hover, a.bg-info:focus,
