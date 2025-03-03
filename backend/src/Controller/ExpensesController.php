@@ -117,6 +117,9 @@ class ExpensesController extends AbstractController
         if (isset($data['category'])) {
             $expense->setCategory($data['category']);
         }
+        if (isset($data['subCategory'])) {
+            $expense->setSubCategory($data['subCategory']);
+        }
 
         $entityManager->flush();
 
