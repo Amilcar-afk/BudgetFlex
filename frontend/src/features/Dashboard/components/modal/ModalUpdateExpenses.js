@@ -1,9 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Datepicker } from "flowbite-react";
 import { ExpensesContext } from "../../../../contexts/ExpensesContext";
 import DatePicker from "react-datepicker";
 
-// Fonction pour formater la date en 'YYYY-MM-DD'
 const formatDate = (date) => {
     const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
@@ -22,6 +20,7 @@ export function ModalUpdateExpenses({ open, onClose, expense }) {
         name: '',
         price: 0.0,
         category: 'needs',
+        subCategory: 'various',
         date: new Date(),
         budgetMonth: expense.budgetMonthId,
     });
@@ -33,6 +32,7 @@ export function ModalUpdateExpenses({ open, onClose, expense }) {
                 name: expense.name,
                 price: expense.price,
                 category: expense.category,
+                subCategory: expense.subCategory,
                 date: new Date(expense.date),
                 budgetMonth: expense.budgetMonthId,
             });
@@ -94,21 +94,41 @@ export function ModalUpdateExpenses({ open, onClose, expense }) {
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-white">Nom</label>
-                                <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
-                                       value={updatedExpense.name} onChange={handleChange} required />
+                                <input type="text" name="name" id="name"
+                                       className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
+                                       value={updatedExpense.name} onChange={handleChange} required/>
                             </div>
                             <div className="col-span-2 sm:col-span-1">
-                                <label htmlFor="price" className="block mb-2 text-sm font-medium text-white">Prix</label>
-                                <input type="number" name="price" id="price" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
-                                       value={updatedExpense.price} onChange={handleChange} required />
+                                <label htmlFor="price"
+                                       className="block mb-2 text-sm font-medium text-white">Prix</label>
+                                <input type="number" name="price" id="price"
+                                       className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
+                                       value={updatedExpense.price} onChange={handleChange} required/>
                             </div>
                             <div className="col-span-2 sm:col-span-1">
-                                <label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Catégorie</label>
-                                <select name="category" id="category" className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
+                                <label htmlFor="category"
+                                       className="block mb-2 text-sm font-medium text-white">Catégorie</label>
+                                <select name="category" id="category"
+                                        className="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white"
                                         value={updatedExpense.category} onChange={handleChange}>
                                     <option value="needs">Besoins</option>
                                     <option value="wants">Plaisirs</option>
                                     <option value="savings">Économies</option>
+                                </select>
+                            </div>
+                            <div className="col-span-2">
+                                <label htmlFor="subCategory"
+                                       className="block mb-2 text-sm font-medium text-white">Sous-Catégorie</label>
+                                <select name="subCategory" id="subCategory"
+                                        className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white"
+                                        value={updatedExpense.subCategory} onChange={handleChange}>
+                                    <option value="hobbies">Loisirs</option>
+                                    <option value="insurance">Assurance</option>
+                                    <option value="health">Santé</option>
+                                    <option value="feed">Alimentation</option>
+                                    <option value="thrift">Epargne</option>
+                                    <option value="transportation">Transport</option>
+                                    <option value="various">Divers</option>
                                 </select>
                             </div>
                             <div className="col-span-2">

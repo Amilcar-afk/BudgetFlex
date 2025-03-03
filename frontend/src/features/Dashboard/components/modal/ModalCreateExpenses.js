@@ -104,7 +104,7 @@ export function ModalCreateExpense({ open, onClose, onCreate, budgetMonthId }) {
                             </div>
                             <div className="col-span-2">
                                 <label htmlFor="subCategory"
-                                       className="block mb-2 text-sm font-medium text-white">Catégorie</label>
+                                       className="block mb-2 text-sm font-medium text-white">Sous-Catégorie</label>
                                 <select name="subCategory" id="subCategory"
                                         className="bg-gray-600 border border-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 text-white"
                                         value={newExpenses.subCategory} onChange={handleChange}>
