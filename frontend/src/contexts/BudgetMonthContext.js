@@ -51,16 +51,17 @@ const BudgetMonthProvider = ({ children }) => {
     const getActiveBudgetMonth = async () => {
         try {
             const response = await BudgetMonthApi.getLastActive();
-            if (response.status === 200) {
-                setActiveBudgetMonth(response.data);
+            setActiveBudgetMonth(response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setActiveBudgetMonth("empty");
             } else {
-                toast.error(`Aucun budgetMonth actif trouvé`, {
+                console.error('Error fetching active budget month:', error);
+                toast.error(`Erreur lors de la récupération du budget actif`, {
                     theme: 'dark',
                 });
+                setActiveBudgetMonth(null);
             }
-        } catch (error) {
-            console.error('Error fetching active budget month:', error);
-            setActiveBudgetMonth(null);
         }
     }
 

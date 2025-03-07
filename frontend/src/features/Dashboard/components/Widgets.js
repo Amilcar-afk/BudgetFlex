@@ -281,7 +281,7 @@ const Widgets = ({ budgetData }) => {
                                     <li>
                                         <div className="form-check form-check-primary">
                                             <label className="form-check-label">
-                                                <input className="checkbox" type="checkbox" /> Create invoice
+                                                <input className="checkbox" type="checkbox"/> Create invoice
                                             </label>
                                         </div>
                                         <i className="remove mdi mdi-close-box"></i>
@@ -289,7 +289,7 @@ const Widgets = ({ budgetData }) => {
                                     <li>
                                         <div className="form-check form-check-primary">
                                             <label className="form-check-label">
-                                                <input className="checkbox" type="checkbox" /> Meeting with Alita
+                                                <input className="checkbox" type="checkbox"/> Meeting with Alita
                                             </label>
                                         </div>
                                         <i className="remove mdi mdi-close-box"></i>
@@ -297,7 +297,7 @@ const Widgets = ({ budgetData }) => {
                                     <li className="completed">
                                         <div className="form-check form-check-primary">
                                             <label className="form-check-label">
-                                                <input className="checkbox" type="checkbox" /> Prepare for presentation
+                                                <input className="checkbox" type="checkbox"/> Prepare for presentation
                                             </label>
                                         </div>
                                         <i className="remove mdi mdi-close-box"></i>
@@ -305,7 +305,7 @@ const Widgets = ({ budgetData }) => {
                                     <li>
                                         <div className="form-check form-check-primary">
                                             <label className="form-check-label">
-                                                <input className="checkbox" type="checkbox" /> Plan weekend outing
+                                                <input className="checkbox" type="checkbox"/> Plan weekend outing
                                             </label>
                                         </div>
                                         <i className="remove mdi mdi-close-box"></i>
@@ -313,13 +313,14 @@ const Widgets = ({ budgetData }) => {
                                     <li>
                                         <div className="form-check form-check-primary">
                                             <label className="form-check-label">
-                                                <input className="checkbox" type="checkbox" /> Pick up kids from school
+                                                <input className="checkbox" type="checkbox"/> Pick up kids from school
                                             </label>
                                         </div>
                                         <i className="remove mdi mdi-close-box"></i>
                                     </li>
                                 </ul>
                             </div>
+                            <button>Test</button>
                         </div>
                     </div>
                 </div>

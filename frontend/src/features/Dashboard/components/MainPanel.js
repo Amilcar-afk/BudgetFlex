@@ -3,6 +3,7 @@ import Widgets from './Widgets';
 import {BudgetMonthContext} from "../../../contexts/BudgetMonthContext";
 import {AuthContext} from "../../../contexts/AuthContext";
 import { Spinner } from "flowbite-react";
+import ArchiveButton from "./ArchiveButton";
 
 const MainPanel = () => {
 
@@ -22,8 +23,11 @@ const MainPanel = () => {
                         <Spinner size="xl" aria-label="Spinner Loading spinner" />
                     </div>
                 ) : (
-                    activeBudgetMonth ? (
-                        <Widgets budgetData={activeBudgetMonth} />
+                    activeBudgetMonth !== "empty" ? (
+                        <>
+                            <Widgets budgetData={activeBudgetMonth}/>
+                            <ArchiveButton/>
+                        </>
                     ) : (
                         <NoActiveBudget />
                     )
