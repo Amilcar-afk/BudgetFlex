@@ -20,7 +20,7 @@ const BudgetMonthApi = {
     },
 
     getLastActive: async function (userId) {
-        return sendRequest(route +`/active/${userId}`, 'GET', {}, true);
+        return sendRequest(route +`/active`, 'GET', {}, true);
     },
 
 };

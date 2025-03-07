@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const response = await AuthApi.login(credentials);
-            if (response && response.data.token) {
+            if (response && response.data.token && response.status === 200) {
                 localStorage.setItem('jwtToken', response.data.token);
                 setCurrentUser(response.data.user);
                 return response.status;

@@ -126,7 +126,7 @@ class BudgetMonthController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
-    #[Route('/user', name: 'app_budget_month_user', methods: ['GET'])]
+    #[Route('/all', name: 'app_budget_month_user', methods: ['GET'])]
     public function getUserBudgetMonths(BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): JsonResponse
     {
         if (!$this->getUser()) {
@@ -143,14 +143,14 @@ class BudgetMonthController extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/active/{userId}', name: 'app_budget_month_active', methods: ['GET'])]
-    public function getUserActiveBudgetMonths(int $userId, BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): JsonResponse
+    #[Route('/active', name: 'app_budget_month_active', methods: ['GET'])]
+    public function getUserActiveBudgetMonths(BudgetMonthRepository $budgetMonthRepository, SerializerInterface $serializer): JsonResponse
     {
-        if (!$this->getUser() || $this->getUser()->getId() !== $userId) {
+        if (!$this->getUser() || !$this->getUser()->getId()) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        $budgetMonths = $budgetMonthRepository->findOneBy(['userId' => $userId, 'state' => 'active']);
+        $budgetMonths = $budgetMonthRepository->findOneBy(['userId' => $this->getUser()->getId(), 'state' => 'active']);
 
         if (!$budgetMonths) {
             return new JsonResponse(['message' => 'No active budget month found'], Response::HTTP_NOT_FOUND);

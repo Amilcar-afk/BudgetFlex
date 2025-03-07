@@ -5,7 +5,6 @@ import 'tailwindcss/tailwind.css';
 import './styles/style.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import DashboardPage from "./features/Dashboard/DashboardPage";
-import UserProvider from "./contexts/AuthContext";
 import RegisterPage from "./features/Auth/RegisterPage";
 import LoginPage from "./features/Auth/LoginPage";
 import BudgetMonthProvider from "./contexts/BudgetMonthContext";
@@ -19,19 +18,17 @@ function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
-                <UserProvider>
-                    <BudgetMonthProvider>
-                        <ExpensesProvider>
-                            <Routes>
-                                <Route path="/dashboard" element={<DashboardPage/>} />
-                                <Route path="/register" element={<RegisterPage/>} />
-                                <Route path="/login" element={<LoginPage/>} />
-                                <Route path="/logout" element={<LogoutPage/>} />
-                            </Routes>
-                            <ToastContainer/>
-                        </ExpensesProvider>
-                    </BudgetMonthProvider>
-                </UserProvider>
+                <BudgetMonthProvider>
+                    <ExpensesProvider>
+                        <Routes>
+                            <Route path="/dashboard" element={<DashboardPage/>} />
+                            <Route path="/register" element={<RegisterPage/>} />
+                            <Route path="/login" element={<LoginPage/>} />
+                            <Route path="/logout" element={<LogoutPage/>} />
+                        </Routes>
+                        <ToastContainer/>
+                    </ExpensesProvider>
+                </BudgetMonthProvider>
             </AuthProvider>
         </BrowserRouter>
     );

@@ -34,7 +34,6 @@ const BudgetMonthProvider = ({ children }) => {
                         ...prevState,
                         ...data,
                     };
-                    console.log("Updated activeBudgetMonth:", updatedState); // État mis à jour
                     toast.success("Modification pris en compte", {
                         theme: 'dark',
                     });
@@ -49,13 +48,12 @@ const BudgetMonthProvider = ({ children }) => {
         }
     }
 
-    const getActiveBudgetMonth = async (userId) => {
+    const getActiveBudgetMonth = async () => {
         try {
-            const response = await BudgetMonthApi.getLastActive(userId);
+            const response = await BudgetMonthApi.getLastActive();
             if (response.status === 200) {
                 setActiveBudgetMonth(response.data);
             } else {
-                setActiveBudgetMonth('empty');
                 toast.error(`Aucun budgetMonth actif trouvé`, {
                     theme: 'dark',
                 });

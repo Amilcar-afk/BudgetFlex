@@ -7,11 +7,11 @@ import { Spinner } from "flowbite-react";
 const MainPanel = () => {
 
     const { getActiveBudgetMonth, activeBudgetMonth } = useContext(BudgetMonthContext);
-    const {currentUser, setCurrentUser} = useContext(AuthContext);
+    const {currentUser} = useContext(AuthContext);
 
     useEffect(() => {
         if(!currentUser)
-            getActiveBudgetMonth(1);
+            getActiveBudgetMonth();
     }, [currentUser]);
 
     return (
