@@ -32,12 +32,12 @@ class BudgetMonthVoter extends Voter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof User) { // si l'utilisateur n'est pas connecté
+        if (!$user instanceof User) {
             error_log("not connected");
             return false;
         }
 
-        if (!$subject instanceof BudgetMonth) { // on est bien sur une instance BudgetMonth
+        if (!$subject instanceof BudgetMonth) {
             error_log("not instancied");
             return false;
         }
