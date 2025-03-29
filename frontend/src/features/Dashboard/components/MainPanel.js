@@ -4,6 +4,7 @@ import {BudgetMonthContext} from "../../../contexts/BudgetMonthContext";
 import {AuthContext} from "../../../contexts/AuthContext";
 import { Spinner } from "flowbite-react";
 import ArchiveButton from "./ArchiveButton";
+import NoActiveBudget from "./NoActiveBudget";
 
 const MainPanel = () => {
 
@@ -36,12 +37,5 @@ const MainPanel = () => {
         </div>
     );
 }
-
-const NoActiveBudget = () => (
-    <div className="no-active-budget">
-        <h2>Aucun budget actif trouvé</h2>
-        <p>Il semble que vous n'ayez pas de budget actif actuellement.</p>
-    </div>
-);
 
 export default MainPanel;

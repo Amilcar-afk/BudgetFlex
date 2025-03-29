@@ -52,6 +52,7 @@ class ExpensesController extends AbstractController
         $expenses->setPrice($data['price']);
         $expenses->setName($data['name']);
         $expenses->setCategory($data['category']);
+        $expenses->setSubCategory($data['subCategory']);
 
         try {
             $date = new DateTime($data['date']);

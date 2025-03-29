@@ -12,11 +12,12 @@ const BudgetMonthProvider = ({ children }) => {
     const addBudgetMonth = async (data) => {
         try{
             const response = await BudgetMonthApi.add(data);
-            if (response.status === 200) {
+            if (response.status === 201) {
                 toast.success(`Votre budgetMonth a bien été enregistré`, {
                     theme: 'dark',
                 });
             }
+            return response;
         } catch (error) {
             console.error(error);
             toast.error(`Votre budgetMonth n'a pas été enregistré`, {

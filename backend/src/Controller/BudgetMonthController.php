@@ -54,7 +54,7 @@ class BudgetMonthController extends AbstractController
         $budgetMonth->setSavingCategory($data['saving']);
         $budgetMonth->setWantsCategory($data['wants']);
 
-        $user = $entityManager->getRepository(User::class)->find($data['user']);
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
         if (!$user) {
             return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
